@@ -4,7 +4,7 @@ import { useRouter } from 'next/navigation'
 import { useTranslation } from 'react-i18next'
 import React, { useEffect, useState } from 'react'
 import { useAppContext } from '@/context/app-context'
-import Main from '@/app/components/datasets/upload'
+import Uploads from '@/app/components/datasets/upload'
 import { fetchDatasets } from '@/service/datasets'
 
 const Layout: FC = () => {
@@ -37,6 +37,6 @@ const Layout: FC = () => {
       return router.replace('/datasets')
   }, [isCurrentWorkspaceDatasetOperator, router])
 
-  return <Main datasetId={datasetId} />
+  return <Uploads datasetId={datasetId} />
 }
 export default React.memo(Layout)
