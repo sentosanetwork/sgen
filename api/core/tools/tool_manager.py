@@ -330,12 +330,11 @@ class ToolManager:
         """
         show_provider = ["google", "google_translate", "bing", "searchapi", "serper", "wikipedia", "yahoo", "webscraper", "youtube", "code", "github", "time", "trello"]
         for provider in listdir(path.join(path.dirname(path.realpath(__file__)), 'provider', 'builtin')):
-            if provider.startswith('__'):
-                continue
-            
             if provider not in show_provider:
                 continue
-            
+            if provider.startswith('__'):
+                continue
+
             if path.isdir(path.join(path.dirname(path.realpath(__file__)), 'provider', 'builtin', provider)):
                 if provider.startswith('__'):
                     continue
