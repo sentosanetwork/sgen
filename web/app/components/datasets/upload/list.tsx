@@ -2,7 +2,7 @@
 'use client'
 import type { FC, SVGProps } from 'react'
 import React, { useCallback, useEffect, useState } from 'react'
-import { useBoolean, useDebounceFn } from 'ahooks'
+import { useBoolean } from 'ahooks'
 import { ArrowDownIcon, TrashIcon } from '@heroicons/react/24/outline'
 import { pick } from 'lodash-es'
 import {
@@ -17,7 +17,6 @@ import { Globe01 } from '../../base/icons/src/vender/line/mapsAndTravel'
 import s from './style.module.css'
 import RenameModal from './rename-modal'
 import cn from '@/utils/classnames'
-import Switch from '@/app/components/base/switch'
 import Divider from '@/app/components/base/divider'
 import Popover from '@/app/components/base/popover'
 import Confirm from '@/app/components/base/confirm'
@@ -33,6 +32,7 @@ import ProgressBar from '@/app/components/base/progress-bar'
 import { DataSourceType, type DocumentDisplayStatus, type SimpleDocumentDetail } from '@/models/datasets'
 import type { CommonResponse } from '@/models/common'
 import useTimestamp from '@/hooks/use-timestamp'
+import DatasetModal from './datasets-modal'
 
 export const SettingsIcon = ({ className }: SVGProps<SVGElement>) => {
   return <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" className={className ?? ''}>
@@ -106,11 +106,9 @@ type OperationName = 'delete' | 'archive' | 'enable' | 'disable' | 'sync' | 'un_
 
 // operation action for list and detail
 export const OperationAction: FC<{
-  embeddingAvailable: boolean
   detail: {
     name: string
     enabled: boolean
-    archived: boolean
     id: string
     data_source_type: string
     doc_form: string
@@ -119,8 +117,8 @@ export const OperationAction: FC<{
   onUpdate: (operationName?: string) => void
   scene?: 'list' | 'detail'
   className?: string
-}> = ({ embeddingAvailable, datasetId, detail, onUpdate, scene = 'list', className = '' }) => {
-  const { id, enabled = false, archived = false, data_source_type } = detail || {}
+}> = ({ datasetId, detail, onUpdate, scene = 'list', className = '' }) => {
+  const { id, enabled = false, data_source_type } = detail || {}
   const [showModal, setShowModal] = useState(false)
   const { notify } = useContext(ToastContext)
   const { t } = useTranslation()
@@ -163,14 +161,6 @@ export const OperationAction: FC<{
     onUpdate(operationName)
   }
 
-  const { run: handleSwitch } = useDebounceFn((operationName: OperationName) => {
-    if (operationName === 'enable' && enabled)
-      return
-    if (operationName === 'disable' && !enabled)
-      return
-    onOperate(operationName)
-  }, { wait: 500 })
-
   const [currDocument, setCurrDocument] = useState<{
     id: string
     name: string
@@ -190,108 +180,58 @@ export const OperationAction: FC<{
     onUpdate()
   }, [onUpdate])
 
+  const [isShowDatasetModal, {
+    setTrue: setShowDatasetModalTrue,
+    setFalse: setShowDatasetModalFalse,
+  }] = useBoolean(false)
+  const handleShowDatasetModal = useCallback((doc: {
+    id: string
+    name: string
+  }) => {
+    setCurrDocument(doc)
+    setShowDatasetModalTrue()
+  }, [setShowRenameModalTrue])
+
   return <div className='flex items-center' onClick={e => e.stopPropagation()}>
-    {isListScene && !embeddingAvailable && (
-      <Switch defaultValue={false} onChange={() => { }} disabled={true} size='md' />
-    )}
-    {isListScene && embeddingAvailable && (
-      <>
-        {archived
-          ? <Tooltip
-            popupContent={t('datasetDocuments.list.action.enableWarning')}
-            popupClassName='!font-semibold'
-            needsDelay
-          >
-            <div>
-              <Switch defaultValue={false} onChange={() => { }} disabled={true} size='md' />
-            </div>
-          </Tooltip>
-          : <Switch defaultValue={enabled} onChange={v => handleSwitch(v ? 'enable' : 'disable')} size='md' />
-        }
-        <Divider className='!ml-4 !mr-2 !h-3' type='vertical' />
-      </>
-    )}
-    {embeddingAvailable && (
-      <Popover
-        htmlContent={
-          <div className='w-full py-1'>
-            {!isListScene && <>
-              <div className='flex justify-between items-center mx-4 pt-2'>
-                <span className={cn(s.actionName, 'font-medium')}>
-                  {!archived && enabled ? t('datasetDocuments.list.index.enable') : t('datasetDocuments.list.index.disable')}
-                </span>
-                <Tooltip
-                  popupContent={t('datasetDocuments.list.action.enableWarning')}
-                  popupClassName='!font-semibold'
-                  needsDelay
-                  disabled={!archived}
-                >
-                  <div>
-                    <Switch
-                      defaultValue={archived ? false : enabled}
-                      onChange={v => !archived && handleSwitch(v ? 'enable' : 'disable')}
-                      disabled={archived}
-                      size='md'
-                    />
-                  </div>
-                </Tooltip>
-              </div>
-              <div className='mx-4 pb-1 pt-0.5 text-xs text-gray-500'>
-                {!archived && enabled ? t('datasetDocuments.list.index.enableTip') : t('datasetDocuments.list.index.disableTip')}
-              </div>
-              <Divider />
-            </>}
-            {!archived && (
-              <>
-                <div className={s.actionItem} onClick={() => {
-                  handleShowRenameModal({
-                    id: detail.id,
-                    name: detail.name,
-                  })
-                }}>
-                  <Edit03 className='w-4 h-4 text-gray-500' />
-                  <span className={s.actionName}>{t('datasetDocuments.list.table.rename')}</span>
-                </div>
-                <div className={s.actionItem} onClick={() => router.push(`/datasets/${datasetId}/documents/${detail.id}/settings`)}>
-                  <SettingsIcon />
-                  <span className={s.actionName}>{t('datasetDocuments.list.action.settings')}</span>
-                </div>
-                {['notion_import', DataSourceType.WEB].includes(data_source_type) && (
-                  <div className={s.actionItem} onClick={() => onOperate('sync')}>
-                    <SyncIcon />
-                    <span className={s.actionName}>{t('datasetDocuments.list.action.sync')}</span>
-                  </div>
-                )}
-                <Divider className='my-1' />
-              </>
-            )}
-            {/* {!archived && <div className={s.actionItem} onClick={() => onOperate('archive')}>
-              <ArchiveIcon />
-              <span className={s.actionName}>{t('datasetDocuments.list.action.archive')}</span>
-            </div>}
-            {archived && (
-              <div className={s.actionItem} onClick={() => onOperate('un_archive')}>
-                <ArchiveIcon />
-                <span className={s.actionName}>{t('datasetDocuments.list.action.unarchive')}</span>
-              </div>
-            )} */}
-            <div className={cn(s.actionItem, s.deleteActionItem, 'group')} onClick={() => setShowModal(true)}>
-              <TrashIcon className={'w-4 h-4 stroke-current text-gray-500 stroke-2 group-hover:text-red-500'} />
-              <span className={cn(s.actionName, 'group-hover:text-red-500')}>{t('datasetDocuments.list.action.delete')}</span>
-            </div>
+    <Popover
+      htmlContent={
+        <div className='w-full py-1'>
+          <div className={s.actionItem} onClick={() => {
+            handleShowRenameModal({
+              id: detail.id,
+              name: detail.name,
+            })
+          }}>
+            <Edit03 className='w-4 h-4 text-gray-500' />
+            <span className={s.actionName}>{t('datasetDocuments.list.table.rename')}</span>
           </div>
-        }
-        trigger='click'
-        position='br'
-        btnElement={
-          <div className={cn(s.commonIcon)}>
-            <RiMoreFill className='w-4 h-4 text-gray-700' />
+          {/* <div className={s.actionItem} onClick={() => router.push(`/datasets/${datasetId}/documents/${detail.id}/settings`)}> */}
+          <div className={s.actionItem} onClick={() => {
+            handleShowDatasetModal({
+              id: detail.id,
+              name: detail.name,
+            })
+          }}>
+            <SettingsIcon />
+            <span className={s.actionName}>{t('datasetDocuments.list.action.settings')}</span>
           </div>
-        }
-        btnClassName={open => cn(isListScene ? s.actionIconWrapperList : s.actionIconWrapperDetail, open ? '!bg-gray-100 !shadow-none' : '!bg-transparent')}
-        className={`flex justify-end !w-[200px] h-fit !z-20 ${className}`}
-      />
-    )}
+          <Divider className='my-1' />
+          <div className={cn(s.actionItem, s.deleteActionItem, 'group')} onClick={() => setShowModal(true)}>
+            <TrashIcon className={'w-4 h-4 stroke-current text-gray-500 stroke-2 group-hover:text-red-500'} />
+            <span className={cn(s.actionName, 'group-hover:text-red-500')}>{t('datasetDocuments.list.action.delete')}</span>
+          </div>
+        </div>
+      }
+      trigger='click'
+      position='br'
+      btnElement={
+        <div className={cn(s.commonIcon)}>
+          <RiMoreFill className='w-4 h-4 text-gray-700' />
+        </div>
+      }
+      btnClassName={open => cn(isListScene ? s.actionIconWrapperList : s.actionIconWrapperDetail, open ? '!bg-gray-100 !shadow-none' : '!bg-transparent')}
+      className={`flex justify-end !w-[200px] h-fit !z-20 ${className}`}
+    />
     {showModal
       && <Confirm
         isShow={showModal}
@@ -310,6 +250,15 @@ export const OperationAction: FC<{
         name={currDocument.name}
         onClose={setShowRenameModalFalse}
         onSaved={handleRenamed}
+      />
+    )}
+    {isShowDatasetModal && currDocument && (
+      <DatasetModal
+        datasetId={datasetId}
+        documentId={currDocument.id}
+        name={currDocument.name}
+        onClose={setShowDatasetModalFalse}
+        onSaved={setShowDatasetModalFalse}
       />
     )}
   </div>
@@ -335,7 +284,6 @@ const renderCount = (count: number | undefined) => {
 
 type LocalDoc = SimpleDocumentDetail & { percent?: number }
 type IDocumentListProps = {
-  embeddingAvailable: boolean
   documents: LocalDoc[]
   datasetId: string
   onUpdate: () => void
@@ -344,7 +292,7 @@ type IDocumentListProps = {
 /**
  * Document list component including basic information
  */
-const DocumentList: FC<IDocumentListProps> = ({ embeddingAvailable, documents = [], datasetId, onUpdate }) => {
+const DocumentList: FC<IDocumentListProps> = ({ documents = [], datasetId, onUpdate }) => {
   const { t } = useTranslation()
   const { formatTime } = useTimestamp()
   const router = useRouter()
@@ -457,7 +405,6 @@ const DocumentList: FC<IDocumentListProps> = ({ embeddingAvailable, documents = 
               </td>
               <td>
                 <OperationAction
-                  embeddingAvailable={embeddingAvailable}
                   datasetId={datasetId}
                   detail={pick(doc, ['name', 'enabled', 'archived', 'id', 'data_source_type', 'doc_form'])}
                   onUpdate={onUpdate}

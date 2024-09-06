@@ -6,7 +6,7 @@ import { useTranslation } from 'react-i18next'
 import { useRouter } from 'next/navigation'
 import { debounce, omit } from 'lodash-es'
 import { PlusIcon } from '@heroicons/react/24/solid'
-import List from './list'
+import DocumentList from './list'
 import s from './style.module.css'
 import Loading from '@/app/components/base/loading'
 import Button from '@/app/components/base/button'
@@ -15,7 +15,6 @@ import Pagination from '@/app/components/base/pagination'
 import { get } from '@/service/base'
 import { fetchDocuments } from '@/service/datasets'
 import { useDatasetDetailContext } from '@/context/dataset-detail'
-import { DataSourceType } from '@/models/datasets'
 // Custom page count is not currently supported.
 const limit = 15
 
@@ -62,8 +61,7 @@ const Uploads: FC<IUploadsProps> = ({ datasetId }) => {
   const router = useRouter()
   const { dataset } = useDatasetDetailContext()
   const [timerCanRun, setTimerCanRun] = useState(true)
-  const isDataSourceFile = dataset?.data_source_type === DataSourceType.FILE
-  const embeddingAvailable = !dataset?.embedding_available
+  // const isDataSourceFile = dataset?.data_source_type === DataSourceType.FILE
 
   const query = useMemo(() => {
     return { page: currPage + 1, limit, keyword: searchValue, fetch: '' }
@@ -79,37 +77,6 @@ const Uploads: FC<IUploadsProps> = ({ datasetId }) => {
     { refreshInterval: (timerCanRun) ? 2500 : 0 },
   )
 
-  const documentsWithProgress = useMemo(() => {
-    let completedNum = 0
-    let percent = 0
-    const documentsData = documentsRes?.data?.map((documentItem) => {
-      const { indexing_status, completed_segments, total_segments } = documentItem
-      const isEmbeddinged = indexing_status === 'completed' || indexing_status === 'paused' || indexing_status === 'error'
-
-      if (isEmbeddinged)
-        completedNum++
-
-      const completedCount = completed_segments || 0
-      const totalCount = total_segments || 0
-      if (totalCount === 0 && completedCount === 0) {
-        percent = isEmbeddinged ? 100 : 0
-      }
-      else {
-        const per = Math.round(completedCount * 100 / totalCount)
-        percent = per > 100 ? 100 : per
-      }
-      return {
-        ...documentItem,
-        percent,
-      }
-    })
-    if (completedNum === documentsRes?.data?.length)
-      setTimerCanRun(false)
-    return {
-      ...documentsRes,
-      data: documentsData,
-    }
-  }, [documentsRes])
   const total = documentsRes?.total || 0
 
   const routeToDocCreate = () => {
@@ -135,19 +102,17 @@ const Uploads: FC<IUploadsProps> = ({ datasetId }) => {
             value={searchValue}
           />
           <div className='flex gap-2 justify-center items-center !h-8'>
-            {embeddingAvailable && (
-              <Button variant='primary' onClick={routeToDocCreate} className='shrink-0'>
-                <PlusIcon className='h-4 w-4 mr-2 stroke-current' />
-                {isDataSourceFile && t('datasetDocuments.list.addFile')}
-              </Button>
-            )}
+            <Button variant='primary' onClick={routeToDocCreate} className='shrink-0'>
+              <PlusIcon className='h-4 w-4 mr-2 stroke-current' />
+              {t('datasetDocuments.list.addFile')}
+            </Button>
           </div>
         </div>
         {isLoading
           ? <Loading type='app' />
           : total > 0
-            ? <List embeddingAvailable={embeddingAvailable} documents={documentsList || []} datasetId={datasetId} onUpdate={mutate} />
-            : <EmptyElement canAdd={embeddingAvailable} onClick={routeToDocCreate} type={'upload'} />
+            ? <DocumentList documents={documentsList || []} datasetId={datasetId} onUpdate={mutate} />
+            : <EmptyElement canAdd={true} onClick={routeToDocCreate} type={'upload'} />
         }
         {/* Show Pagination only if the total is more than the limit */}
         {(total && total > limit)
