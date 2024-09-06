@@ -85,7 +85,7 @@ const Documents: FC<IDocumentsProps> = ({ datasetId }) => {
   const isDataSourceNotion = dataset?.data_source_type === DataSourceType.NOTION
   const isDataSourceWeb = dataset?.data_source_type === DataSourceType.WEB
   const isDataSourceFile = dataset?.data_source_type === DataSourceType.FILE
-  const embeddingAvailable = !!!dataset?.embedding_available
+  const embeddingAvailable = !dataset?.embedding_available
 
   const query = useMemo(() => {
     return { page: currPage + 1, limit, keyword: searchValue, fetch: isDataSourceNotion ? true : '' }

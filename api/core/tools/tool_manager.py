@@ -330,15 +330,12 @@ class ToolManager:
         """
         show_provider = ["google", "google_translate", "bing", "searchapi", "serper", "wikipedia", "yahoo", "webscraper", "youtube", "code", "github", "time", "trello"]
         for provider in listdir(path.join(path.dirname(path.realpath(__file__)), 'provider', 'builtin')):
-            if provider not in show_provider:
-                continue
             if provider.startswith('__'):
                 continue
 
             if path.isdir(path.join(path.dirname(path.realpath(__file__)), 'provider', 'builtin', provider)):
-                if provider.startswith('__'):
+                if provider.startswith('__') and provider not in show_provider:
                     continue
-
                 # init provider
                 try:
                     provider_class = load_single_subclass_from_source(
