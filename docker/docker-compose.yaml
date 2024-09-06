@@ -272,7 +272,7 @@ services:
     volumes:
       - ./volumes/db/data:/var/lib/postgresql/data
     ports:
-      - "5433:${DB_PORT:-5432}"
+      - "5431:${DB_PORT:-5432}"
     healthcheck:
       test: [ "CMD", "pg_isready" ]
       interval: 1s
@@ -452,7 +452,7 @@ services:
     volumes:
       - ./volumes/pgvector/data:/var/lib/postgresql/data
     ports:
-      - "5434:${PGVECTOR_PORT:-5432}"
+      - "5433:${PGVECTOR_PORT:-5432}"
     healthcheck:
       test: [ "CMD", "pg_isready" ]
       interval: 1s

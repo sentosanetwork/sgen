@@ -42,7 +42,7 @@ services:
     volumes:
       - ./volumes/pgvector/data:/var/lib/postgresql/data
     ports:
-      - "5434:${PGVECTOR_PORT:-5432}"
+      - "5433:${PGVECTOR_PORT:-5432}"
     healthcheck:
       test: [ "CMD", "pg_isready" ]
       interval: 1s
