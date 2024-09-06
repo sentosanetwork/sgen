@@ -184,7 +184,6 @@ zhipuai = "1.0.7"
 
 vnstock3 = "0.3.0.6"
 seaborn = "0.13.2"
-
 ############################################################
 # Related transparent dependencies with pinned verion
 # required by main implementations
