@@ -568,8 +568,6 @@ services:
       common.security.authorizationEnabled: ${MILVUS_AUTHORIZATION_ENABLED:-true}
     volumes:
       - ./volumes/milvus/milvus:/var/lib/milvus
-    ports:
-      - 9091:9091
     healthcheck:
       test: [ "CMD", "curl", "-f", "http://localhost:9091/healthz" ]
       interval: 30s
