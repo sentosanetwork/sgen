@@ -26,26 +26,13 @@ from commands import register_commands
 from configs import dify_config
 
 # DO NOT REMOVE BELOW
-from events import event_handlers
-from extensions import (
-    ext_celery,
-    ext_code_based_extension,
-    ext_compress,
-    ext_database,
-    ext_hosting_provider,
-    ext_login,
-    ext_mail,
-    ext_migrate,
-    ext_redis,
-    ext_sentry,
-    ext_storage,
-)
+from extensions import (ext_celery, ext_code_based_extension, ext_compress, ext_database, ext_hosting_provider,
+                        ext_login, ext_mail, ext_migrate, ext_redis, ext_sentry, ext_storage, )
 from extensions.ext_database import db
 from extensions.ext_login import login_manager
 from libs.passport import PassportService
 
 # TODO: Find a way to avoid importing models here
-from models import account, dataset, model, source, task, tool, tools, web
 from services.account_service import AccountService
 
 # DO NOT REMOVE ABOVE
@@ -108,22 +95,11 @@ def create_app() -> Flask:
     if log_file:
         log_dir = os.path.dirname(log_file)
         os.makedirs(log_dir, exist_ok=True)
-        log_handlers = [
-            RotatingFileHandler(
-                filename=log_file,
-                maxBytes=1024 * 1024 * 1024,
-                backupCount=5,
-            ),
-            logging.StreamHandler(sys.stdout),
-        ]
+        log_handlers = [RotatingFileHandler(filename=log_file, maxBytes=1024 * 1024 * 1024, backupCount=5, ),
+            logging.StreamHandler(sys.stdout), ]
 
-    logging.basicConfig(
-        level=app.config.get("LOG_LEVEL"),
-        format=app.config.get("LOG_FORMAT"),
-        datefmt=app.config.get("LOG_DATEFORMAT"),
-        handlers=log_handlers,
-        force=True,
-    )
+    logging.basicConfig(level=app.config.get("LOG_LEVEL"), format=app.config.get("LOG_FORMAT"),
+        datefmt=app.config.get("LOG_DATEFORMAT"), handlers=log_handlers, force=True, )
     log_tz = app.config.get("LOG_TZ")
     if log_tz:
         from datetime import datetime
@@ -192,11 +168,8 @@ def load_user_from_request(request_from_flask_login):
 @login_manager.unauthorized_handler
 def unauthorized_handler():
     """Handle unauthorized requests."""
-    return Response(
-        json.dumps({"code": "unauthorized", "message": "Unauthorized."}),
-        status=401,
-        content_type="application/json",
-    )
+    return Response(json.dumps({"code": "unauthorized", "message": "Unauthorized."}), status=401,
+        content_type="application/json", )
 
 
 # register blueprint routers
@@ -207,47 +180,34 @@ def register_blueprints(app):
     from controllers.service_api import bp as service_api_bp
     from controllers.web import bp as web_bp
     from controllers.stock_api import bp as stock_api_bp
+    from controllers.search_api import bp as search_api_bp
 
-    CORS(
-        service_api_bp,
-        allow_headers=["Content-Type", "Authorization", "X-App-Code"],
-        methods=["GET", "PUT", "POST", "DELETE", "OPTIONS", "PATCH"],
-    )
+    CORS(service_api_bp, allow_headers=["Content-Type", "Authorization", "X-App-Code"],
+        methods=["GET", "PUT", "POST", "DELETE", "OPTIONS", "PATCH"], )
     app.register_blueprint(service_api_bp)
 
-    CORS(
-        web_bp,
-        resources={r"/*": {"origins": app.config["WEB_API_CORS_ALLOW_ORIGINS"]}},
-        supports_credentials=True,
+    CORS(web_bp, resources={r"/*": {"origins": app.config["WEB_API_CORS_ALLOW_ORIGINS"]}}, supports_credentials=True,
         allow_headers=["Content-Type", "Authorization", "X-App-Code"],
-        methods=["GET", "PUT", "POST", "DELETE", "OPTIONS", "PATCH"],
-        expose_headers=["X-Version", "X-Env"],
-    )
-
+        methods=["GET", "PUT", "POST", "DELETE", "OPTIONS", "PATCH"], expose_headers=["X-Version", "X-Env"], )
     app.register_blueprint(web_bp)
 
-    CORS(
-        console_app_bp,
-        resources={r"/*": {"origins": app.config["CONSOLE_CORS_ALLOW_ORIGINS"]}},
-        supports_credentials=True,
-        allow_headers=["Content-Type", "Authorization"],
-        methods=["GET", "PUT", "POST", "DELETE", "OPTIONS", "PATCH"],
-        expose_headers=["X-Version", "X-Env"],
-    )
-
+    CORS(console_app_bp, resources={r"/*": {"origins": app.config["CONSOLE_CORS_ALLOW_ORIGINS"]}},
+        supports_credentials=True, allow_headers=["Content-Type", "Authorization"],
+        methods=["GET", "PUT", "POST", "DELETE", "OPTIONS", "PATCH"], expose_headers=["X-Version", "X-Env"], )
     app.register_blueprint(console_app_bp)
 
     CORS(files_bp, allow_headers=["Content-Type"], methods=["GET", "PUT", "POST", "DELETE", "OPTIONS", "PATCH"])
     app.register_blueprint(files_bp)
 
     app.register_blueprint(inner_api_bp)
-    
-    CORS(
-        stock_api_bp,
-        allow_headers=["Content-Type", "Authorization", "X-App-Code"],
-        methods=["GET", "PUT", "POST", "DELETE", "OPTIONS", "PATCH"],
-    )
+
+    CORS(stock_api_bp, allow_headers=["Content-Type", "Authorization", "X-App-Code"],
+        methods=["GET", "PUT", "POST", "DELETE", "OPTIONS", "PATCH"], )
     app.register_blueprint(stock_api_bp)
+
+    CORS(search_api_bp, allow_headers=["Content-Type", "Authorization", "X-App-Code"],
+        methods=["GET", "PUT", "POST", "DELETE", "OPTIONS", "PATCH"], )
+    app.register_blueprint(search_api_bp)
 
 
 # create app
@@ -269,11 +229,8 @@ def after_request(response):
 
 @app.route("/health")
 def health():
-    return Response(
-        json.dumps({"pid": os.getpid(), "status": "ok", "version": app.config["CURRENT_VERSION"]}),
-        status=200,
-        content_type="application/json",
-    )
+    return Response(json.dumps({"pid": os.getpid(), "status": "ok", "version": app.config["CURRENT_VERSION"]}),
+        status=200, content_type="application/json", )
 
 
 @app.route("/threads")
@@ -287,33 +244,17 @@ def threads():
         thread_id = thread.ident
         is_alive = thread.is_alive()
 
-        thread_list.append(
-            {
-                "name": thread_name,
-                "id": thread_id,
-                "is_alive": is_alive,
-            }
-        )
+        thread_list.append({"name": thread_name, "id": thread_id, "is_alive": is_alive, })
 
-    return {
-        "pid": os.getpid(),
-        "thread_num": num_threads,
-        "threads": thread_list,
-    }
+    return {"pid": os.getpid(), "thread_num": num_threads, "threads": thread_list, }
 
 
 @app.route("/db-pool-stat")
 def pool_stat():
     engine = db.engine
-    return {
-        "pid": os.getpid(),
-        "pool_size": engine.pool.size(),
-        "checked_in_connections": engine.pool.checkedin(),
-        "checked_out_connections": engine.pool.checkedout(),
-        "overflow_connections": engine.pool.overflow(),
-        "connection_timeout": engine.pool.timeout(),
-        "recycle_time": db.engine.pool._recycle,
-    }
+    return {"pid": os.getpid(), "pool_size": engine.pool.size(), "checked_in_connections": engine.pool.checkedin(),
+        "checked_out_connections": engine.pool.checkedout(), "overflow_connections": engine.pool.overflow(),
+        "connection_timeout": engine.pool.timeout(), "recycle_time": db.engine.pool._recycle, }
 
 
 if __name__ == "__main__":
