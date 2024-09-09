@@ -1,14 +1,11 @@
-import logging
-import os
-
-# from controllers.search_api.wraps import search_data
-from flask import request, make_response
 from flask_restful import Resource
+from flask import request, make_response
 
 from configs import dify_config
 from controllers.stock_api import api
 from controllers.stock_api.wraps import get_stock_price, get_recent_stock_news, get_financial_data
-
+import os
+import logging
 
 logger = logging.getLogger(__name__)
 
@@ -17,7 +14,11 @@ TICKERS_FILE_PATH = os.path.join(os.path.dirname(__file__), 'tickers.csv')
 
 class StockIndexApi(Resource):
     def get(self):
-        return {"welcome": "Stock OpenAPI", "api_version": "v1", "server_version": dify_config.CURRENT_VERSION, }
+        return {
+            "welcome": "Stock OpenAPI",
+            "api_version": "v1",
+            "server_version": dify_config.CURRENT_VERSION,
+        }
 
 
 class StockTicker(Resource):
@@ -58,7 +59,7 @@ class StockFinance(Resource):
         return f"{result}"
 
 
-api.add_resource(StockIndexApi, '/stockindex')
+api.add_resource(StockIndexApi, '/')
 api.add_resource(StockTicker, '/ticker')
 api.add_resource(StockPrice, '/price')
 api.add_resource(StockNews, '/news')
