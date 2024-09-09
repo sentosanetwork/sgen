@@ -239,7 +239,7 @@ def search_data(search_query, api_key, search_engine_id, num_results):
 
 def get_first_page_content(data_input):
     if type(data_input) is list:
-        url = data_input.get('items', [])[0]['link']
+        url = data_input[0]['link']
         response = requests.get(url)
     else:
         raise
