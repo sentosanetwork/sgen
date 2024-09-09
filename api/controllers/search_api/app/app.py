@@ -2,9 +2,8 @@
 from flask_restful import Resource, fields, marshal_with
 
 from configs import dify_config
-from controllers.stock_api import api
+from controllers.search_api import api
 from controllers.stock_api.app.error import AppUnavailableError
-# from controllers.stock_api.wraps import validate_app_token
 from models.model import App, AppMode
 from services.app_service import AppService
 
@@ -93,7 +92,7 @@ class AppInfoApi(Resource):
         return {
             'name':app_model.name,
             'description':app_model.description
-        } 
+        }
 
 
 api.add_resource(AppParameterApi, '/parameters')

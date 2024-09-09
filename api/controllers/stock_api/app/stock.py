@@ -28,15 +28,15 @@ class StockTicker(Resource):
         response = make_response(company_data)
         response.headers['Content-Type'] = 'text/plain; charset=utf-8'
         return response
-        
+
 class StockPrice(Resource):
     def get(self):
         ticker = request.args.get('ticker', '')
-        
+
         result = get_stock_price(ticker)
         # logger.info(f"get_stock_price {type(result)} {result}")
         return f"{result}"
-    
+
 class StockNews(Resource):
     def get(self):
         ticker = request.args.get('ticker', '')
@@ -48,7 +48,7 @@ class StockNews(Resource):
 class StockFinance(Resource):
     def get(self):
         ticker = request.args.get('ticker', '')
-        
+
         result = get_financial_data(ticker)
         logger.info(f"get_financial_data {type(result)} {result}")
         return f"{result}"

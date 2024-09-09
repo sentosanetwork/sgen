@@ -207,6 +207,7 @@ def register_blueprints(app):
     from controllers.service_api import bp as service_api_bp
     from controllers.web import bp as web_bp
     from controllers.stock_api import bp as stock_api_bp
+    from controllers.search_api import bp as search_api_bp
 
     CORS(
         service_api_bp,
@@ -241,7 +242,7 @@ def register_blueprints(app):
     app.register_blueprint(files_bp)
 
     app.register_blueprint(inner_api_bp)
-    
+
     CORS(
         stock_api_bp,
         allow_headers=["Content-Type", "Authorization", "X-App-Code"],
@@ -249,6 +250,12 @@ def register_blueprints(app):
     )
     app.register_blueprint(stock_api_bp)
 
+    CORS(search_api_bp,
+         allow_headers=["Content-Type", "Authorization", "X-App-Code"],
+         methods=["GET", "PUT", "POST", "DELETE", "OPTIONS", "PATCH"],
+    )
+
+    app.register_blueprint(search_api_bp)
 
 # create app
 app = create_app()
