@@ -11,7 +11,6 @@ logger = logging.getLogger(__name__)
 
 TICKERS_FILE_PATH = os.path.join(os.path.dirname(__file__), 'tickers.csv')
 
-
 class StockIndexApi(Resource):
     def get(self):
         return {
@@ -19,7 +18,6 @@ class StockIndexApi(Resource):
             "api_version": "v1",
             "server_version": dify_config.CURRENT_VERSION,
         }
-
 
 class StockTicker(Resource):
     def get(self):
@@ -31,7 +29,6 @@ class StockTicker(Resource):
         response.headers['Content-Type'] = 'text/plain; charset=utf-8'
         return response
 
-
 class StockPrice(Resource):
     def get(self):
         ticker = request.args.get('ticker', '')
@@ -39,7 +36,6 @@ class StockPrice(Resource):
         result = get_stock_price(ticker)
         # logger.info(f"get_stock_price {type(result)} {result}")
         return f"{result}"
-
 
 class StockNews(Resource):
     def get(self):
@@ -49,7 +45,6 @@ class StockNews(Resource):
         # logger.info(f"get_recent_stock_news {type(result)} {result}")
         return result
 
-
 class StockFinance(Resource):
     def get(self):
         ticker = request.args.get('ticker', '')
@@ -57,7 +52,6 @@ class StockFinance(Resource):
         result = get_financial_data(ticker)
         logger.info(f"get_financial_data {type(result)} {result}")
         return f"{result}"
-
 
 api.add_resource(StockIndexApi, '/')
 api.add_resource(StockTicker, '/ticker')

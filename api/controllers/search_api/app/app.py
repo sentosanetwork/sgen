@@ -92,7 +92,7 @@ class AppInfoApi(Resource):
         return {
             'name':app_model.name,
             'description':app_model.description
-        } 
+        }
 
 
 api.add_resource(AppParameterApi, '/parameters')

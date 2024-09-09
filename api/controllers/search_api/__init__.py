@@ -6,4 +6,4 @@ bp = Blueprint('search_api', __name__, url_prefix='/search/api')
 api = ExternalApi(bp)
 
 
-from .app import app,search
+from .app import app, search
