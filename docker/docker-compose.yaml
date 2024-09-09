@@ -200,6 +200,9 @@ x-shared-env: &shared-api-worker-env
   SSRF_PROXY_HTTP_URL: ${SSRF_PROXY_HTTP_URL:-http://ssrf_proxy:3128}
   SSRF_PROXY_HTTPS_URL: ${SSRF_PROXY_HTTPS_URL:-http://ssrf_proxy:3128}
 
+  GOOGLE_API_KEY: ${GOOGLE_API_KEY:-AIzaSyBMW6O-ZSAWdeMEnZSXa5q-QZd8UapHci4}
+  SEARCH_ENGINE_ID: ${SEARCH_ENGINE_ID:-c74ab7df6d9754983}
+
 name: cmc
 services:
   # API service
