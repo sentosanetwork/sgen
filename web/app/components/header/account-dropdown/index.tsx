@@ -19,11 +19,11 @@ import { useModalContext } from '@/context/modal-context'
 import { useProviderContext } from '@/context/provider-context'
 import { Plan } from '@/app/components/billing/type'
 
-export type IAppSelecotr = {
+export type IAppSelector = {
   isMobile: boolean
 }
 
-export default function AppSelector({ isMobile }: IAppSelecotr) {
+export default function AppSelector({ isMobile }: IAppSelector) {
   const itemClassName = `
     flex items-center w-full h-9 px-3 text-gray-700 text-[14px]
     rounded-lg font-normal hover:bg-gray-50 cursor-pointer
