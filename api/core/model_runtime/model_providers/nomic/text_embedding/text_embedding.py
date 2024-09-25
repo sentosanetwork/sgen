@@ -5,6 +5,7 @@ from typing import Optional
 from nomic import embed
 from nomic import login as nomic_login
 
+from core.embedding.embedding_constant import EmbeddingInputType
 from core.model_runtime.entities.model_entities import PriceType
 from core.model_runtime.entities.text_embedding_entities import (
     EmbeddingUsage,
@@ -46,6 +47,7 @@ class NomicTextEmbeddingModel(_CommonNomic, TextEmbeddingModel):
         credentials: dict,
         texts: list[str],
         user: Optional[str] = None,
+        input_type: EmbeddingInputType = EmbeddingInputType.DOCUMENT,
     ) -> TextEmbeddingResult:
         """
         Invoke text embedding model
@@ -77,15 +79,7 @@ class NomicTextEmbeddingModel(_CommonNomic, TextEmbeddingModel):
         :param texts: texts to embed
         :return:
         """
-        if len(texts) == 0:
-            return 0
-
-        _, prompt_tokens, _ = self.embed_text(
-            model=model,
-            credentials=credentials,
-            texts=texts,
-        )
-        return prompt_tokens
+        return sum(self._get_num_tokens_by_gpt2(text) for text in texts)
 
     def validate_credentials(self, model: str, credentials: dict) -> None:
         """
