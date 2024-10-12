@@ -141,7 +141,7 @@ const translation = {
     logout: 'Log out',
   },
   settings: {
-    accountGroup: 'ACCOUNT',
+    accountGroup: 'GENERAL',
     workplaceGroup: 'WORKSPACE',
     account: 'My account',
     members: 'Members',
@@ -154,6 +154,9 @@ const translation = {
     apiBasedExtension: 'API Extension',
   },
   account: {
+    account: 'Account',
+    myAccount: 'My Account',
+    studio: 'Dify Studio',
     avatar: 'Avatar',
     name: 'Name',
     email: 'Email',
