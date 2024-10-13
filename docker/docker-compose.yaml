@@ -222,7 +222,7 @@ x-shared-env: &shared-api-worker-env
   GOOGLE_API_KEY: ${GOOGLE_API_KEY:-AIzaSyBMW6O-ZSAWdeMEnZSXa5q-QZd8UapHci4}
   SEARCH_ENGINE_ID: ${SEARCH_ENGINE_ID:-c74ab7df6d9754983}
 
-name: cmc
+name: sgen
 services:
   # API service
   api:
