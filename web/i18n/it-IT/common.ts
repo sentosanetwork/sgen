@@ -181,7 +181,7 @@ const translation = {
       'Per confermare, invia il seguente messaggio dalla tua email registrata a ',
     myAccount: 'Il mio account',
     account: 'Conto',
-    studio: 'Dify Studio',
+    studio: 'Studio',
   },
   members: {
     team: 'Team',
