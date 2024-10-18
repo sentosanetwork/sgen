@@ -212,7 +212,7 @@ export const OperationAction: FC<{
             })
           }}>
             <SettingsIcon />
-            <span className={s.actionName}>Show Roadmap</span>
+            <span className={s.actionName}>{t('common.menus.files')}</span>
           </div>
           <Divider className='my-1' />
           <div className={cn(s.actionItem, s.deleteActionItem, 'group')} onClick={() => setShowModal(true)}>
@@ -355,6 +355,7 @@ const DocumentList: FC<IDocumentListProps> = ({ documents = [], datasetId, onUpd
               </div>
             </td>
             <td className='w-40'>{t('datasetDocuments.list.table.header.status')}</td>
+            <td className='w-20'>{t('common.menus.files')}</td>
             <td className='w-20'>{t('datasetDocuments.list.table.header.action')}</td>
           </tr>
         </thead>
@@ -365,12 +366,12 @@ const DocumentList: FC<IDocumentListProps> = ({ documents = [], datasetId, onUpd
             return <tr
               key={doc.id}
               className={'border-b border-gray-200 h-8 hover:bg-gray-50 cursor-pointer'}
-              onClick={() => {
-                router.push(`/datasets/${datasetId}/documents/${doc.id}`)
-              }}>
+              >
               <td className='text-left align-middle text-gray-500 text-xs'>{doc.position}</td>
               <td>
-                <div className='group flex items-center justify-between'>
+                <div className='group flex items-center justify-between' onClick={() => {
+                  router.push(`/datasets/${datasetId}/documents/${doc.id}`)
+                }}>
                   <span className={s.tdValue}>
                     {doc?.data_source_type === DataSourceType.NOTION && <NotionIcon className='inline-flex -mt-[3px] mr-1.5 align-middle' type='page' src={doc.data_source_info.notion_page_icon} />
                     }
@@ -417,7 +418,7 @@ const DocumentList: FC<IDocumentListProps> = ({ documents = [], datasetId, onUpd
                   setShowDatasetModalTrue()
                 }}>
                   <SettingsIcon />
-                  <span className={s.actionName}>Roadmap</span>
+                  <span className={s.actionName}>{t('common.menus.files')}</span>
                 </div>
               </td>
               <td>
