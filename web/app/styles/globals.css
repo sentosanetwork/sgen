@@ -665,6 +665,13 @@ button:focus-within {
   bottom: 0;
 }
 
+.mermaid {
+  max-width: 100%;
+  margin: 20px 0;
+  overflow: hidden;
+  font-size: 16px;
+}
+
 @import '../components/base/button/index.css';
 @import '../components/base/action-button/index.css';
 @import '../components/base/modal/index.css';

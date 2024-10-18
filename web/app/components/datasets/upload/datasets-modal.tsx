@@ -79,14 +79,14 @@ const DatasetModal: FC<Props> = ({
         text-xs font-medium text-gray-700 cursor-pointer
       `}
       >
-        {t('common.menus.datasets')}
+        {t('common.menus.files')}
       </div>
     )
   }, [])
 
   return (
     <Modal
-      title={t('common.menus.datasets')}
+      title={t('common.menus.files')}
       isShow
       onClose={onClose}
     >
@@ -97,8 +97,8 @@ const DatasetModal: FC<Props> = ({
         renderTrigger={renderTrigger}
         items={[
           {
-            value: 'duplicate',
-            text: 'Show Roadmap',
+            value: datasetId,
+            text: `${name} ${documentId}`,
           },
         ]}
         onSelect={item => onSaved(item.value as string)}
