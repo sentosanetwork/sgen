@@ -1,5 +1,5 @@
 .modal {
-  max-width: 480px !important;
-  width: 480px !important;
+  /* max-width: 480px !important; */
+  width: 480px;
   padding: 24px 32px !important;
 }
