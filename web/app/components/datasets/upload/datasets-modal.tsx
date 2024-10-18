@@ -2,11 +2,8 @@
 import type { FC } from 'react'
 import React, { useCallback } from 'react'
 import { useTranslation } from 'react-i18next'
-import { useBoolean } from 'ahooks'
-import Toast from '../../base/toast'
 import Modal from '@/app/components/base/modal'
 import Button from '@/app/components/base/button'
-import { renameDocumentName } from '@/service/datasets'
 import Dropdown from '@/app/components/base/dropdown'
 
 type Props = {
@@ -53,7 +50,7 @@ const DatasetModal: FC<Props> = ({
         items={[
           {
             value: 'duplicate',
-            text: 'aaa',
+            text: 'Show Roadmap',
           },
         ]}
         onSelect={item => onSaved(item.value as string)}

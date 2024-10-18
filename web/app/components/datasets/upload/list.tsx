@@ -1,4 +1,3 @@
-/* eslint-disable no-mixed-operators */
 'use client'
 import type { FC, SVGProps } from 'react'
 import React, { useCallback, useEffect, useState } from 'react'
@@ -16,6 +15,7 @@ import { Edit03 } from '../../base/icons/src/vender/solid/general'
 import { Globe01 } from '../../base/icons/src/vender/line/mapsAndTravel'
 import s from './style.module.css'
 import RenameModal from './rename-modal'
+import DatasetModal from './datasets-modal'
 import cn from '@/utils/classnames'
 import Divider from '@/app/components/base/divider'
 import Popover from '@/app/components/base/popover'
@@ -32,7 +32,6 @@ import ProgressBar from '@/app/components/base/progress-bar'
 import { DataSourceType, type DocumentDisplayStatus, type SimpleDocumentDetail } from '@/models/datasets'
 import type { CommonResponse } from '@/models/common'
 import useTimestamp from '@/hooks/use-timestamp'
-import DatasetModal from './datasets-modal'
 
 export const SettingsIcon = ({ className }: SVGProps<SVGElement>) => {
   return <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" className={className ?? ''}>
@@ -213,7 +212,7 @@ export const OperationAction: FC<{
             })
           }}>
             <SettingsIcon />
-            <span className={s.actionName}>{t('datasetDocuments.list.action.settings')}</span>
+            <span className={s.actionName}>Show Roadmap</span>
           </div>
           <Divider className='my-1' />
           <div className={cn(s.actionItem, s.deleteActionItem, 'group')} onClick={() => setShowModal(true)}>
