@@ -18,7 +18,11 @@ const Layout: FC = () => {
       if (!datasetId) {
         const { data: datasets } = await fetchDatasets({ url: '/datasets', params: { page: 1 } })
         if (datasets && datasets.length) {
-          setDatasetId(datasets?.[0]?.id)
+          const roadmapDataset = datasets.find(dataset =>
+            dataset.tags?.some(tag => tag?.name === 'Roadmap'),
+          )
+          const _id = roadmapDataset ? roadmapDataset.id : datasets[0]?.id
+          setDatasetId(_id)
         }
       }
     })()
