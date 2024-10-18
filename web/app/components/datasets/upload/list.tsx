@@ -189,7 +189,7 @@ export const OperationAction: FC<{
   }) => {
     setCurrDocument(doc)
     setShowDatasetModalTrue()
-  }, [setShowRenameModalTrue])
+  }, [setShowDatasetModalTrue])
 
   return <div className='flex items-center' onClick={e => e.stopPropagation()}>
     <Popover
@@ -326,6 +326,15 @@ const DocumentList: FC<IDocumentListProps> = ({ documents = [], datasetId, onUpd
     onUpdate()
   }, [onUpdate])
 
+  const [isShowDatasetModal, {
+    setTrue: setShowDatasetModalTrue,
+    setFalse: setShowDatasetModalFalse,
+  }] = useBoolean(false)
+  const handleShowDatasetModal = useCallback((doc: LocalDoc) => {
+    setCurrDocument(doc)
+    setShowDatasetModalTrue()
+  }, [setShowDatasetModalTrue])
+
   return (
     <div className='w-full h-full overflow-x-auto'>
       <table className={`min-w-[700px] max-w-full w-full border-collapse border-0 text-sm mt-3 ${s.documentTable}`}>
@@ -403,6 +412,15 @@ const DocumentList: FC<IDocumentListProps> = ({ documents = [], datasetId, onUpd
                 }
               </td>
               <td>
+                <div className={s.actionItem} onClick={() => {
+                  setCurrDocument(doc)
+                  setShowDatasetModalTrue()
+                }}>
+                  <SettingsIcon />
+                  <span className={s.actionName}>Roadmap</span>
+                </div>
+              </td>
+              <td>
                 <OperationAction
                   datasetId={datasetId}
                   detail={pick(doc, ['name', 'enabled', 'archived', 'id', 'data_source_type', 'doc_form'])}
@@ -421,6 +439,16 @@ const DocumentList: FC<IDocumentListProps> = ({ documents = [], datasetId, onUpd
           name={currDocument.name}
           onClose={setShowRenameModalFalse}
           onSaved={handleRenamed}
+        />
+      )}
+
+      {isShowDatasetModal && currDocument && (
+        <DatasetModal
+          datasetId={datasetId}
+          documentId={currDocument.id}
+          name={currDocument.name}
+          onClose={setShowDatasetModalFalse}
+          onSaved={setShowDatasetModalFalse}
         />
       )}
     </div>
