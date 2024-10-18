@@ -98,7 +98,11 @@ const DatasetModal: FC<Props> = ({
         items={[
           {
             value: datasetId,
-            text: `${name} ${documentId}`,
+            text: datasetId,
+          },
+          {
+            value: documentId,
+            text: documentId,
           },
         ]}
         onSelect={item => onSaved(item.value as string)}
