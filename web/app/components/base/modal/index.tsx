@@ -63,6 +63,7 @@ export default function Modal({
                 'modal-panel',
                 overflowVisible ? 'overflow-visible' : 'overflow-hidden',
                 className,
+                wrapperClassName,
               )}>
                 {title && <Dialog.Title
                   as="h3"
