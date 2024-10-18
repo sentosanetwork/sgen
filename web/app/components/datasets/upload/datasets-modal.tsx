@@ -88,6 +88,7 @@ const DatasetModal: FC<Props> = ({
     <Modal
       title={t('common.menus.files')}
       isShow
+      wrapperClassName='modal-wrapper'
       onClose={onClose}
     >
       <input disabled={true} className={'mt-2 w-full rounded-lg h-10 box-border px-3 text-sm leading-10 bg-gray-100'}
