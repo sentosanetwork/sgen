@@ -15,11 +15,12 @@ import Metadata from './metadata'
 import SegmentAdd, { ProcessStatus } from './segment-add'
 import BatchModal from './batch-modal'
 import style from './style.module.css'
+import MermaidDiagram from '@/app/components/datasets/upload/diagram'
 import cn from '@/utils/classnames'
 import Divider from '@/app/components/base/divider'
 import Loading from '@/app/components/base/loading'
 import type { MetadataType } from '@/service/datasets'
-import { checkSegmentBatchImportProgress, fetchDocumentDetail, segmentBatchImport } from '@/service/datasets'
+import { checkSegmentBatchImportProgress, fetchDatasetDetail, fetchDocumentDetail, segmentBatchImport } from '@/service/datasets'
 import { ToastContext } from '@/app/components/base/toast'
 import type { DocForm } from '@/models/datasets'
 import { useDatasetDetailContext } from '@/context/dataset-detail'
@@ -127,9 +128,74 @@ const DocumentDetail: FC<Props> = ({ datasetId, documentId }) => {
       detailMutate()
   }
 
+  const { data: currentDataset } = useSWR({
+    url: 'fetchDatasetDetail',
+    datasetId,
+  }, apiParams => fetchDatasetDetail(apiParams.datasetId))
+
+  const diagram = `
+    graph TD;
+      A((Start Mobile App Development)) --> B[Phase 1: Beginner];
+      B --> C{Learn Fundamentals};
+      C --> D[Flutter/Dart Basics];
+      C --> E[React Native/JavaScript Basics];
+      C --> F[Git & Version Control];
+      C --> G[Firebase Basics];
+      C --> H[Milestone: Build Simple Apps];
+      B --> I[Phase 2: Intermediate];
+      I --> J{Advance UI/UX Skills};
+      J --> K[Custom Widgets in Flutter];
+      J --> L[React Hooks & Redux-Saga];
+      J --> M[APIs: Dio & Axios];
+      J --> N[State Management: Getx & Redux];
+      J --> O[Milestone: Publish First App];
+      I --> P{Master App Store Deployment};
+      P --> Q[CI/CD Setup];
+      P --> R[Publish to AppStore/PlayStore];
+      P --> S[Milestone: Deploy Multiple Apps];
+      I --> T[Phase 3: Advanced];
+      T --> U{Backend & Advanced Features};
+      U --> V[Firebase Firestore Integration];
+      U --> W[Push Notifications];
+      U --> X[Offline Functionality];
+      U --> Y[Milestone: Real-time Sync & Offline Support];
+      T --> Z{Optimization & Testing};
+      Z --> AA[Performance Optimization];
+      Z --> AB[Automated Testing];
+      Z --> AC[Deeper CI/CD Exploration];
+      Z --> AD[Milestone: Automated Testing & Delivery];
+      T --> AE[Phase 4: Expert / Leadership];
+      AE --> AF{Contribute & Lead};
+      AF --> AG[Contribute to Open Source];
+      AF --> AH[Mentor Others];
+      AF --> AI{Advanced Architecture};
+      AI --> AJ[Modular App Design];
+      AI --> AK[Scalability & Maintainability];
+      AF --> AL[Milestone: Lead a Team/Project];
+
+      %% Correct clickable buttons
+      click A "https://www.example.com/decide-to-make-pizza" "Step 1: Decide to make pizza";
+      click B "https://www.example.com/buy-ingredients" "Step 2: Buy ingredients";
+      click C "https://www.example.com/prepare-sauce" "Step 3: Prepare sauce";
+      click D "https://www.example.com/roll-out-dough" "Step 4: Roll out dough";
+      click E "https://www.example.com/add-toppings" "Step 5: Add cheese & toppings";
+      click F "https://www.example.com/bake-pizza" "Step 6: Bake pizza";
+      click G "https://www.example.com/enjoy-pizza" "Step 7: Enjoy your pizza!";
+  `
+
   return (
     <DocumentContext.Provider value={{ datasetId, documentId, docForm: documentDetail?.doc_form || '' }}>
       <div className='flex flex-col h-full'>
+        <div className='border-b-gray-100 border-b p-4 gap-y-2'>
+          {currentDataset && currentDataset.tags && currentDataset.tags?.some(tag => tag?.name === 'Roadmap') && (
+            <>
+              <div className='flex items-center justify-between gap-x-4'>
+                {currentDataset.tags?.[0]?.name}
+              </div>
+              <MermaidDiagram chart={diagram} />
+            </>
+          )}
+        </div>
         <div className='flex min-h-16 border-b-gray-100 border-b items-center p-4 justify-between flex-wrap gap-y-2'>
           <div onClick={backToPrev} className={'shrink-0 rounded-full w-8 h-8 flex justify-center items-center border-gray-100 cursor-pointer border hover:border-gray-300 shadow-[0px_12px_16px_-4px_rgba(16,24,40,0.08),0px_4px_6px_-2px_rgba(16,24,40,0.03)]'}>
             <ArrowLeftIcon className='text-primary-600 fill-current stroke-current h-4 w-4' />
