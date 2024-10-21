@@ -16,6 +16,17 @@ const MermaidDiagram: React.FC<MermaidDiagramProps> = ({ chart }) => {
     if (chartRef.current) {
       // Generate the diagram in the ref container
       mermaid.contentLoaded()
+
+      mermaid.init(undefined, document.querySelector('#mermaid'))
+
+      // Example: Event listeners for nodes
+      document.getElementById('node-StartMobileApp').addEventListener('click', () => {
+        alert('Start Mobile App Development clicked!')
+      })
+
+      document.getElementById('node-Beginner').addEventListener('click', () => {
+        alert('Phase 1: Beginner clicked!')
+      })
     }
   }, [chart]) // Re-run the effect if the chart prop changes
 
