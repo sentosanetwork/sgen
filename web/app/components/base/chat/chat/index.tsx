@@ -229,57 +229,57 @@ const Chat: FC<ChatProps> = ({
             title="ticker tape TradingView widget"
             lang="en"
             style={{
-              userSelect: "none",
-              boxSizing: "border-box",
-              display: "block",
-              height: "44px",
-              width: "100%",
+              userSelect: 'none',
+              boxSizing: 'border-box',
+              display: 'block',
+              height: '44px',
+              width: '100%',
             }}
           ></iframe>
           {chatNode}
           <iframe
             src={`https://www.tradingview-widget.com/embed-widget/symbol-overview/?locale=vi#${encodeURIComponent(
               JSON.stringify({
-                symbols: [["VCB"]],
-                chartOnly: false,
-                width: "100%",
-                height: "100%",
-                colorTheme: "light",
-                showVolume: false,
-                showMA: false,
-                hideDateRanges: false,
-                hideMarketStatus: false,
-                hideSymbolLogo: false,
-                scalePosition: "right",
-                scaleMode: "Normal",
-                fontFamily: "-apple-system, BlinkMacSystemFont, Trebuchet MS, Roboto, Ubuntu, sans-serif",
-                fontSize: "10",
-                noTimeScale: false,
-                valuesTracking: "1",
-                changeMode: "price-and-percent",
-                chartType: "area",
-                maLineColor: "#2962FF",
-                maLineWidth: 1,
-                maLength: 9,
-                backgroundColor: "rgba(255, 255, 255, 0)",
-                lineWidth: 2,
-                lineType: 0,
-                dateRanges: ["1d|1", "1m|30", "3m|60", "12m|1D", "60m|1W", "all|1M"],
-                utm_source: "groq-stockbot.vercel.app",
-                utm_medium: "widget_new",
-                utm_campaign: "symbol-overview",
-                "page-uri": "groq-stockbot.vercel.app/"
-              })
+                'symbols': [['VCB']],
+                'chartOnly': false,
+                'width': '100%',
+                'height': '100%',
+                'colorTheme': 'light',
+                'showVolume': false,
+                'showMA': false,
+                'hideDateRanges': false,
+                'hideMarketStatus': false,
+                'hideSymbolLogo': false,
+                'scalePosition': 'right',
+                'scaleMode': 'Normal',
+                'fontFamily': '-apple-system, BlinkMacSystemFont, Trebuchet MS, Roboto, Ubuntu, sans-serif',
+                'fontSize': '10',
+                'noTimeScale': false,
+                'valuesTracking': '1',
+                'changeMode': 'price-and-percent',
+                'chartType': 'area',
+                'maLineColor': '#2962FF',
+                'maLineWidth': 1,
+                'maLength': 9,
+                'backgroundColor': 'rgba(255, 255, 255, 0)',
+                'lineWidth': 2,
+                'lineType': 0,
+                'dateRanges': ['1d|1', '1m|30', '3m|60', '12m|1D', '60m|1W', 'all|1M'],
+                'utm_source': 'groq-stockbot.vercel.app',
+                'utm_medium': 'widget_new',
+                'utm_campaign': 'symbol-overview',
+                'page-uri': 'groq-stockbot.vercel.app/',
+              }),
             )}`}
             title="symbol overview TradingView widget"
             lang="en"
             style={{
-              userSelect: "none",
-              boxSizing: "border-box",
-              display: "block",
-              margin: "auto",
-              height: "calc(50% - 16px)",
-              width: isMobile ? "100%" : "50%"
+              userSelect: 'none',
+              boxSizing: 'border-box',
+              display: 'block',
+              margin: 'auto',
+              height: 'calc(50% - 16px)',
+              width: isMobile ? '100%' : '50%',
             }}
           ></iframe>
           <div
