@@ -237,7 +237,7 @@ const Chat: FC<ChatProps> = ({
             }}
           ></iframe>
           {chatNode}
-          <iframe
+          {/* <iframe
             src={`https://www.tradingview-widget.com/embed-widget/symbol-overview/?locale=vi#${encodeURIComponent(
               JSON.stringify({
                 'symbols': [['VCB']],
@@ -281,7 +281,7 @@ const Chat: FC<ChatProps> = ({
               height: 'calc(50% - 16px)',
               width: isMobile ? '100%' : '50%',
             }}
-          ></iframe>
+          ></iframe> */}
           <div
             ref={chatContainerInnerRef}
             className={classNames('w-full', !noSpacing && 'px-8', chatContainerInnerClassName)}

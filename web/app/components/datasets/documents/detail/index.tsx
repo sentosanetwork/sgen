@@ -185,17 +185,7 @@ const DocumentDetail: FC<Props> = ({ datasetId, documentId }) => {
 
   return (
     <DocumentContext.Provider value={{ datasetId, documentId, docForm: documentDetail?.doc_form || '' }}>
-      <div className='flex flex-col h-full'>
-        <div className='border-b-gray-100 border-b p-4 gap-y-2'>
-          {currentDataset && currentDataset.tags && currentDataset.tags?.some(tag => tag?.name === 'Roadmap') && (
-            <>
-              <div className='flex items-center justify-between gap-x-4'>
-                {currentDataset.tags?.[0]?.name}
-              </div>
-              <MermaidDiagram chart={diagram} />
-            </>
-          )}
-        </div>
+      <div className='flex flex-col h-full overflow-y-auto'>
         <div className='flex min-h-16 border-b-gray-100 border-b items-center p-4 justify-between flex-wrap gap-y-2'>
           <div onClick={backToPrev} className={'shrink-0 rounded-full w-8 h-8 flex justify-center items-center border-gray-100 cursor-pointer border hover:border-gray-300 shadow-[0px_12px_16px_-4px_rgba(16,24,40,0.08),0px_4px_6px_-2px_rgba(16,24,40,0.03)]'}>
             <ArrowLeftIcon className='text-primary-600 fill-current stroke-current h-4 w-4' />
@@ -263,6 +253,23 @@ const DocumentDetail: FC<Props> = ({ datasetId, documentId }) => {
           onConfirm={runBatch}
           docForm={documentDetail?.doc_form as DocForm}
         />
+
+        <div className='border-b-gray-100 border-b p-4 gap-y-2'>
+          {currentDataset && currentDataset.tags && currentDataset.tags?.some(tag => tag?.name === 'Roadmap') && (
+            <>
+              <div className='flex items-center justify-between gap-x-4'>
+                {currentDataset.tags?.[0]?.name}
+              </div>
+              <MermaidDiagram chart={diagram} />
+              <iframe
+                src="http://167.172.87.130/chatbot/GyC8biGhNNDfFVSM"
+                style={{ width: '100%', height: '100%', minHeight: '700px' }}
+                frameBorder="0"
+                allow="microphone"
+              ></iframe>
+            </>
+          )}
+        </div>
       </div>
     </DocumentContext.Provider>
   )
