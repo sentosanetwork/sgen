@@ -63,8 +63,15 @@ const DatasetModal: FC<Props> = ({
       AI --> AJ[Modular App Design];
       AI --> AK[Scalability & Maintainability];
       AF --> AL[Milestone: Lead a Team/Project];
-      click A callbackA "Start Mobile App Development clicked!";
-      click B callbackB "Phase 1: Beginner clicked!";
+
+      %% Correct clickable buttons
+      click A "https://www.example.com/decide-to-make-pizza" "Step 1: Decide to make pizza";
+      click B "https://www.example.com/buy-ingredients" "Step 2: Buy ingredients";
+      click C "https://www.example.com/prepare-sauce" "Step 3: Prepare sauce";
+      click D "https://www.example.com/roll-out-dough" "Step 4: Roll out dough";
+      click E "https://www.example.com/add-toppings" "Step 5: Add cheese & toppings";
+      click F "https://www.example.com/bake-pizza" "Step 6: Bake pizza";
+      click G "https://www.example.com/enjoy-pizza" "Step 7: Enjoy your pizza!";
   `
 
   const renderTrigger = useCallback((open: boolean) => {
