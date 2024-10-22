@@ -366,7 +366,7 @@ const DocumentList: FC<IDocumentListProps> = ({ documents = [], datasetId, onUpd
             return <tr
               key={doc.id}
               className={'border-b border-gray-200 h-8 hover:bg-gray-50 cursor-pointer'}
-              >
+            >
               <td className='text-left align-middle text-gray-500 text-xs'>{doc.position}</td>
               <td>
                 <div className='group flex items-center justify-between' onClick={() => {
@@ -414,8 +414,9 @@ const DocumentList: FC<IDocumentListProps> = ({ documents = [], datasetId, onUpd
               </td>
               <td>
                 <div className={s.actionItem} onClick={() => {
-                  setCurrDocument(doc)
-                  setShowDatasetModalTrue()
+                  router.push(`/datasets/${datasetId}/roadmaps/${doc.id}`)
+                  // setCurrDocument(doc)
+                  // setShowDatasetModalTrue()
                 }}>
                   <SettingsIcon />
                   <span className={s.actionName}>{t('common.menus.files')}</span>
