@@ -1,6 +1,5 @@
 import React, { useCallback, useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import Link from 'next/link'
 import { useRouter, useSearchParams } from 'next/navigation'
 import { RiDoorLockLine } from '@remixicon/react'
 import Loading from '../components/base/loading'
@@ -13,7 +12,6 @@ import { getSystemFeatures, invitationCheck } from '@/service/common'
 import { defaultSystemFeatures } from '@/types/feature'
 import Toast from '@/app/components/base/toast'
 import useRefreshToken from '@/hooks/use-refresh-token'
-import { IS_CE_EDITION } from '@/config'
 
 const NormalForm = () => {
   const { getNewAccessToken } = useRefreshToken()
@@ -96,8 +94,8 @@ const NormalForm = () => {
             <p className='mt-2 body-md-regular text-text-tertiary'>{t('login.joinTipStart')}{workspaceName}{t('login.joinTipEnd')}</p>
           </div>
           : <div className="w-full mx-auto">
-            <h2 className="title-4xl-semi-bold text-text-primary">{t('login.pageTitle')}</h2>
-            <p className='mt-2 body-md-regular text-text-tertiary'>{t('login.welcome')}</p>
+            <h2 className="title-4xl-semi-bold text-text-primary">👋{t('login.pageTitle')}</h2>
+            {/* <p className='mt-2 body-md-regular text-text-tertiary'>{t('login.welcome')}</p> */}
           </div>}
         <div className="bg-white">
           <div className="flex flex-col gap-3 mt-6">
@@ -145,7 +143,7 @@ const NormalForm = () => {
               </div>
             </div>
           </>}
-          <div className="w-full block mt-2 system-xs-regular text-text-tertiary">
+          {/* <div className="w-full block mt-2 system-xs-regular text-text-tertiary">
             {t('login.tosDesc')}
             &nbsp;
             <Link
@@ -159,15 +157,15 @@ const NormalForm = () => {
               target='_blank' rel='noopener noreferrer'
               href='https://dify.ai/privacy'
             >{t('login.pp')}</Link>
-          </div>
-          {IS_CE_EDITION && <div className="w-hull block mt-2 system-xs-regular text-text-tertiary">
+          </div> */}
+          {/* {IS_CE_EDITION && <div className="w-hull block mt-2 system-xs-regular text-text-tertiary">
             {t('login.goToInit')}
             &nbsp;
             <Link
               className='system-xs-medium text-text-secondary hover:underline'
               href='/install'
             >{t('login.setAdminAccount')}</Link>
-          </div>}
+          </div>} */}
 
         </div>
       </div>
