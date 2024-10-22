@@ -1,6 +1,6 @@
 identity:
   name: jina_reader
-  author: Dify
+  author: Base
   label:
     en_US: Fetch Single Page
     zh_Hans: 获取单页面

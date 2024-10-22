@@ -360,7 +360,7 @@ class ToolManager:
         """
         list all the builtin providers
         """
-        show_provider = ["google", "google_translate", "bing", "searchapi", "serper", "wikipedia", "yahoo", "webscraper", "youtube", "code", "github", "time", "trello"]
+        show_provider = ["google", "google_translate", "bing", "searchapi", "serper", "wikipedia", "yahoo", "webscraper", "youtube", "code", "github", "time", "trello", "perplexity"]
         for provider in listdir(path.join(path.dirname(path.realpath(__file__)), "provider", "builtin")):
             if provider.startswith("__"):
                 continue
