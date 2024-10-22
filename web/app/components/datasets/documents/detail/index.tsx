@@ -15,7 +15,8 @@ import Metadata from './metadata'
 import SegmentAdd, { ProcessStatus } from './segment-add'
 import BatchModal from './batch-modal'
 import style from './style.module.css'
-import MermaidDiagram from '@/app/components/datasets/upload/diagram'
+// import MermaidDiagram from '@/app/components/datasets/upload/diagram'
+import ReactRoadmap from '@/app/components/datasets/upload/roadmap'
 import cn from '@/utils/classnames'
 import Divider from '@/app/components/base/divider'
 import Loading from '@/app/components/base/loading'
@@ -260,7 +261,8 @@ const DocumentDetail: FC<Props> = ({ datasetId, documentId }) => {
               <div className='flex items-center justify-between gap-x-4'>
                 {currentDataset.tags?.[0]?.name}
               </div>
-              <MermaidDiagram chart={diagram} />
+              {/* <MermaidDiagram chart={diagram} /> */}
+              <ReactRoadmap />
               <iframe
                 src="http://167.172.87.130/chatbot/GyC8biGhNNDfFVSM"
                 style={{ width: '100%', height: '100%', minHeight: '700px' }}
