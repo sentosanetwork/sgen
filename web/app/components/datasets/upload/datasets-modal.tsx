@@ -3,6 +3,8 @@ import type { FC } from 'react'
 import React, { useCallback } from 'react'
 import { useTranslation } from 'react-i18next'
 import MermaidDiagram from './diagram'
+import ReactRoadmap from '@/app/components/datasets/upload/roadmap'
+import { initialNodes, initialEdges, mermaidDiagram } from '@/app/components/datasets/upload/roadmap-data'
 import Modal from '@/app/components/base/modal'
 import Button from '@/app/components/base/button'
 import Dropdown from '@/app/components/base/dropdown'
@@ -24,55 +26,6 @@ const DatasetModal: FC<Props> = ({
 }) => {
   const { t } = useTranslation()
 
-  const diagram = `
-    graph TD;
-      A((Start Mobile App Development)) --> B[Phase 1: Beginner];
-      B --> C{Learn Fundamentals};
-      C --> D[Flutter/Dart Basics];
-      C --> E[React Native/JavaScript Basics];
-      C --> F[Git & Version Control];
-      C --> G[Firebase Basics];
-      C --> H[Milestone: Build Simple Apps];
-      B --> I[Phase 2: Intermediate];
-      I --> J{Advance UI/UX Skills};
-      J --> K[Custom Widgets in Flutter];
-      J --> L[React Hooks & Redux-Saga];
-      J --> M[APIs: Dio & Axios];
-      J --> N[State Management: Getx & Redux];
-      J --> O[Milestone: Publish First App];
-      I --> P{Master App Store Deployment};
-      P --> Q[CI/CD Setup];
-      P --> R[Publish to AppStore/PlayStore];
-      P --> S[Milestone: Deploy Multiple Apps];
-      I --> T[Phase 3: Advanced];
-      T --> U{Backend & Advanced Features};
-      U --> V[Firebase Firestore Integration];
-      U --> W[Push Notifications];
-      U --> X[Offline Functionality];
-      U --> Y[Milestone: Real-time Sync & Offline Support];
-      T --> Z{Optimization & Testing};
-      Z --> AA[Performance Optimization];
-      Z --> AB[Automated Testing];
-      Z --> AC[Deeper CI/CD Exploration];
-      Z --> AD[Milestone: Automated Testing & Delivery];
-      T --> AE[Phase 4: Expert / Leadership];
-      AE --> AF{Contribute & Lead};
-      AF --> AG[Contribute to Open Source];
-      AF --> AH[Mentor Others];
-      AF --> AI{Advanced Architecture};
-      AI --> AJ[Modular App Design];
-      AI --> AK[Scalability & Maintainability];
-      AF --> AL[Milestone: Lead a Team/Project];
-
-      %% Correct clickable buttons
-      click A "https://www.example.com/decide-to-make-pizza" "Step 1: Decide to make pizza";
-      click B "https://www.example.com/buy-ingredients" "Step 2: Buy ingredients";
-      click C "https://www.example.com/prepare-sauce" "Step 3: Prepare sauce";
-      click D "https://www.example.com/roll-out-dough" "Step 4: Roll out dough";
-      click E "https://www.example.com/add-toppings" "Step 5: Add cheese & toppings";
-      click F "https://www.example.com/bake-pizza" "Step 6: Bake pizza";
-      click G "https://www.example.com/enjoy-pizza" "Step 7: Enjoy your pizza!";
-  `
 
   const renderTrigger = useCallback((open: boolean) => {
     return (
@@ -112,7 +65,8 @@ const DatasetModal: FC<Props> = ({
         onSelect={item => onSaved(item.value as string)}
         popupClassName='z-[1003]'
       />
-      <MermaidDiagram chart={diagram} />
+      <MermaidDiagram chart={mermaidDiagram} />
+      <ReactRoadmap initialNodes={initialNodes} initialEdges={initialEdges} />
 
       <div className='mt-10 flex justify-end'>
         <Button variant='secondary' className='flex-shrink-0' onClick={onClose}>{t('common.operation.cancel')}</Button>
