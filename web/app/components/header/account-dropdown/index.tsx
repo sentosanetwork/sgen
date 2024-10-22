@@ -149,7 +149,7 @@ export default function AppSelector({ isMobile }: IAppSelector) {
                       <Link
                         className={classNames(itemClassName, 'group justify-between')}
                         href={
-                          locale !== LanguagesSupported[1] ? 'https://docs.dify.ai/' : `https://docs.dify.ai/v/${locale.toLowerCase()}/`
+                          locale !== LanguagesSupported[1] ? '/docs/' : `/docs/v/${locale.toLowerCase()}/`
                         }
                         target='_blank' rel='noopener noreferrer'>
                         <div>{t('common.userProfile.helpCenter')}</div>

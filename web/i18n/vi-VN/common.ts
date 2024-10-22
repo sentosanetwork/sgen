@@ -419,7 +419,7 @@ const translation = {
   apiBasedExtension: {
     title: 'Các tiện ích API cung cấp quản lý API tập trung, giúp cấu hình dễ dàng sử dụng trên các ứng dụng của Base.',
     link: 'Tìm hiểu cách phát triển Phần mở rộng API của riêng bạn.',
-    linkUrl: 'https://docs.dify.ai/features/extension/api_based_extension',
+    linkUrl: '/docs/features/extension/api_based_extension',
     add: 'Thêm Phần mở rộng API',
     selector: {
       title: 'Phần mở rộng API',

@@ -419,7 +419,7 @@ const translation = {
   apiBasedExtension: {
     title: 'As extensões de API fornecem gerenciamento centralizado de API, simplificando a configuração para uso fácil em todos os aplicativos da Dify.',
     link: 'Saiba como desenvolver sua própria Extensão de API.',
-    linkUrl: 'https://docs.dify.ai/features/extension/api_based_extension',
+    linkUrl: '/docs/features/extension/api_based_extension',
     add: 'Adicionar Extensão de API',
     selector: {
       title: 'Extensão de API',

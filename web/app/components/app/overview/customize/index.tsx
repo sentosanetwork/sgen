@@ -101,7 +101,7 @@ const CustomizeModal: FC<IShareLinkProps> = ({
         className='mt-2'
         onClick={() =>
           window.open(
-            `https://docs.dify.ai/${locale !== LanguagesSupported[1]
+            `/docs/${locale !== LanguagesSupported[1]
               ? 'user-guide/launching-dify-apps/developing-with-apis'
               : `v/${locale.toLowerCase()}/guides/application-publishing/developing-with-apis`
             }`,

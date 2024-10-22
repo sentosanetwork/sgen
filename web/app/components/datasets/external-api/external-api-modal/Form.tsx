@@ -57,7 +57,7 @@ const Form: FC<FormProps> = React.memo(({
           </label>
           {variable === 'endpoint' && (
             <a
-              href={'https://docs.dify.ai/guides/knowledge-base/external-knowledge-api-documentation' || '/'}
+              href={'/docs/guides/knowledge-base/external-knowledge-api-documentation' || '/'}
               target='_blank'
               rel='noopener noreferrer'
               className='text-text-accent body-xs-regular flex items-center'
