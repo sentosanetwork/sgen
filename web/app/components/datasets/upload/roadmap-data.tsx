@@ -1,47 +1,41 @@
 export const initialNodes = [
-  { id: '1', position: { x: 0, y: 0 }, data: { label: 'Phase 1: Foundations', extraInfo: 'This phase covers the foundational knowledge required to become a front-end developer.' }, type: 'input' },
-  { id: '2', position: { x: -150, y: 100 }, data: { label: 'Master HTML, CSS, and JavaScript', extraInfo: 'Learn the basic building blocks of web development.' }, type: 'default' },
-  { id: '3', position: { x: 150, y: 100 }, data: { label: 'Version Control with Git', extraInfo: 'Get hands-on experience with Git and GitHub for version control.' }, type: 'default' },
-  { id: '4', position: { x: -200, y: 200 }, data: { label: 'Learn HTML5 Basics', extraInfo: 'Understand the fundamentals of HTML5 to structure web pages effectively.' }, type: 'default' },
-  { id: '5', position: { x: -150, y: 200 }, data: { label: 'Learn CSS3 Basics', extraInfo: 'Explore the styling techniques with CSS3 to make responsive websites.' }, type: 'default' },
-  { id: '6', position: { x: -100, y: 200 }, data: { label: 'Master JavaScript ES6+', extraInfo: 'Deep dive into JavaScript ES6+ syntax and features for modern web development.' }, type: 'default' },
-  { id: '7', position: { x: 100, y: 200 }, data: { label: 'Git Basics: clone, commit, push', extraInfo: 'Learn how to clone repositories, commit changes, and push them to GitHub or GitLab.' }, type: 'default' },
-  { id: '8', position: { x: 150, y: 200 }, data: { label: 'Work with Branching', extraInfo: 'Get familiar with branching strategies and how to collaborate effectively.' }, type: 'default' },
-  { id: '9', position: { x: 200, y: 200 }, data: { label: 'GitHub/GitLab Collaboration', extraInfo: 'Collaborate on projects with others using GitHub or GitLab.' }, type: 'default' },
-
-  { id: '10', position: { x: 0, y: 300 }, data: { label: 'Phase 2: Mastering React', extraInfo: 'This phase covers React core concepts and how to build powerful front-end applications.' }, type: 'default' },
-  { id: '11', position: { x: -150, y: 400 }, data: { label: 'Core React Concepts', extraInfo: 'Understand components, JSX, and virtual DOM to work with React.' }, type: 'default' },
-  { id: '12', position: { x: 150, y: 400 }, data: { label: 'React Hooks', extraInfo: 'Learn to manage state and side effects with React hooks like useState and useEffect.' }, type: 'default' },
-  { id: '13', position: { x: -200, y: 500 }, data: { label: 'Components, JSX, Props', extraInfo: 'Discover how to create reusable components and pass data using props.' }, type: 'default' },
-  { id: '14', position: { x: -150, y: 500 }, data: { label: 'State & Lifecycle', extraInfo: 'Manage state and lifecycle methods in functional components.' }, type: 'default' },
-  { id: '15', position: { x: -100, y: 500 }, data: { label: 'Event Handling', extraInfo: 'Handle user interactions with event handling in React.' }, type: 'default' },
-  { id: '16', position: { x: 100, y: 500 }, data: { label: 'useState, useEffect', extraInfo: 'Master React hooks for state and side effect management.' }, type: 'default' },
-  { id: '17', position: { x: 150, y: 500 }, data: { label: 'useRef, useMemo, useCallback', extraInfo: 'Optimize performance using hooks like useRef, useMemo, and useCallback.' }, type: 'default' },
-  { id: '18', position: { x: 200, y: 500 }, data: { label: 'Custom Hooks', extraInfo: 'Build your own reusable custom hooks to encapsulate complex logic.' }, type: 'default' },
-
-  { id: '19', position: { x: 0, y: 600 }, data: { label: 'React Router', extraInfo: 'Learn how to navigate between pages with React Router.' }, type: 'default' },
-  { id: '20', position: { x: -150, y: 700 }, data: { label: 'React Router Setup', extraInfo: 'Set up routing in your React app to enable page navigation.' }, type: 'default' },
-  { id: '21', position: { x: 0, y: 700 }, data: { label: 'Nested & Protected Routes', extraInfo: 'Implement nested and protected routes in your React app.' }, type: 'default' },
-
-  { id: '22', position: { x: 0, y: 800 }, data: { label: 'Phase 3: Building Real Projects', extraInfo: 'Start applying your knowledge by building real-world React applications.' }, type: 'default' },
-  { id: '23', position: { x: -150, y: 900 }, data: { label: 'Create First React App', extraInfo: 'Create your first React application from scratch.' }, type: 'default' },
-  { id: '24', position: { x: 150, y: 900 }, data: { label: 'API Integration', extraInfo: 'Learn how to integrate third-party APIs into your React apps.' }, type: 'default' },
-  { id: '25', position: { x: -200, y: 1000 }, data: { label: 'To-do App', extraInfo: 'Build a simple To-do app to manage tasks.' }, type: 'default' },
-  { id: '26', position: { x: -150, y: 1000 }, data: { label: 'Weather App', extraInfo: 'Create a weather app that fetches data from a weather API.' }, type: 'default' },
-  { id: '27', position: { x: 100, y: 1000 }, data: { label: 'Fetch Data with Axios', extraInfo: 'Learn how to fetch data from APIs using Axios.' }, type: 'default' },
-  { id: '28', position: { x: 150, y: 1000 }, data: { label: 'Handle Loading & Errors', extraInfo: 'Handle loading states and errors in your applications.' }, type: 'default' },
-
-  { id: '29', position: { x: 0, y: 1100 }, data: { label: 'Phase 4: Performance Optimization', extraInfo: 'Learn how to optimize your React applications for better performance.' }, type: 'default' },
-  { id: '30', position: { x: -150, y: 1200 }, data: { label: 'Performance Optimization Techniques', extraInfo: 'Implement techniques to improve app performance and reduce render time.' }, type: 'default' },
-  { id: '31', position: { x: 150, y: 1200 }, data: { label: 'React DevTools', extraInfo: 'Use React DevTools to debug and profile your app.' }, type: 'default' },
-
-  { id: '32', position: { x: 0, y: 1300 }, data: { label: 'Phase 5: Advanced React Ecosystem', extraInfo: 'Explore advanced topics in the React ecosystem.' }, type: 'default' },
-  { id: '33', position: { x: -150, y: 1400 }, data: { label: 'Server-Side Rendering (SSR)', extraInfo: 'Learn how to render React on the server to improve performance and SEO.' }, type: 'default' },
-  { id: '34', position: { x: 150, y: 1400 }, data: { label: 'GraphQL Integration', extraInfo: 'Integrate GraphQL with your React application to fetch data efficiently.' }, type: 'default' },
-
-  { id: '35', position: { x: 0, y: 1500 }, data: { label: 'Phase 6: Deployment & DevOps', extraInfo: 'Deploy your React applications and set up continuous integration/continuous deployment pipelines.' }, type: 'default' },
-  { id: '36', position: { x: -150, y: 1600 }, data: { label: 'CI/CD Pipelines', extraInfo: 'Set up CI/CD pipelines to automate deployment processes.' }, type: 'default' },
-  { id: '37', position: { x: 150, y: 1600 }, data: { label: 'Deploying React Apps', extraInfo: 'Learn how to deploy your React apps to platforms like Netlify or Vercel.' }, type: 'output' },
+  { id: '1', position: { x: 0, y: 0 }, data: { label: 'Phase 1: Foundations', extraInfo: 'This phase covers the foundational knowledge required to become a front-end developer. To learn this, start with basic HTML, CSS, and JavaScript. Progress through understanding version control, and move towards more advanced JavaScript ES6+ concepts.' }, type: 'input' },
+  { id: '2', position: { x: -150, y: 100 }, data: { label: 'Master HTML, CSS, and JavaScript', extraInfo: 'Learn the basic building blocks of web development. Start with tutorials or courses on HTML, CSS, and JavaScript, and build small projects to practice your skills.' }, type: 'default' },
+  { id: '3', position: { x: 150, y: 100 }, data: { label: 'Version Control with Git', extraInfo: 'Get hands-on experience with Git and GitHub for version control. Follow a beginner’s Git course to understand commands like clone, commit, and push.' }, type: 'default' },
+  { id: '4', position: { x: -200, y: 200 }, data: { label: 'Learn HTML5 Basics', extraInfo: 'Understand the fundamentals of HTML5 to structure web pages effectively. Focus on semantic HTML, forms, and basic web layout.' }, type: 'default' },
+  { id: '5', position: { x: -150, y: 200 }, data: { label: 'Learn CSS3 Basics', extraInfo: 'Explore the styling techniques with CSS3 to make responsive websites. Learn flexbox, grid, and media queries.' }, type: 'default' },
+  { id: '6', position: { x: -100, y: 200 }, data: { label: 'Master JavaScript ES6+', extraInfo: 'Deep dive into JavaScript ES6+ syntax and features for modern web development. Study features like arrow functions, promises, async/await, and modules.' }, type: 'default' },
+  { id: '7', position: { x: 100, y: 200 }, data: { label: 'Git Basics: clone, commit, push', extraInfo: 'Learn how to clone repositories, commit changes, and push them to GitHub or GitLab. Practice by contributing to open-source projects or building your own.' }, type: 'default' },
+  { id: '8', position: { x: 150, y: 200 }, data: { label: 'Work with Branching', extraInfo: 'Get familiar with branching strategies and how to collaborate effectively. Study concepts like branching, merging, and pull requests.' }, type: 'default' },
+  { id: '9', position: { x: 200, y: 200 }, data: { label: 'GitHub/GitLab Collaboration', extraInfo: 'Collaborate on projects with others using GitHub or GitLab. Learn how to fork repositories and submit pull requests.' }, type: 'default' },
+  { id: '10', position: { x: 0, y: 300 }, data: { label: 'Phase 2: Mastering React', extraInfo: 'This phase covers React core concepts and how to build powerful front-end applications. Start with basic React concepts like components, JSX, and state, then move on to more advanced hooks and lifecycle methods.' }, type: 'default' },
+  { id: '11', position: { x: -150, y: 400 }, data: { label: 'Core React Concepts', extraInfo: 'Understand components, JSX, and virtual DOM to work with React. Build small applications to get hands-on experience.' }, type: 'default' },
+  { id: '12', position: { x: 150, y: 400 }, data: { label: 'React Hooks', extraInfo: 'Learn to manage state and side effects with React hooks like useState and useEffect. Build apps that use both hooks to understand their use cases.' }, type: 'default' },
+  { id: '13', position: { x: -200, y: 500 }, data: { label: 'Components, JSX, Props', extraInfo: 'Discover how to create reusable components and pass data using props. Focus on component composition and practice by building multiple UI components.' }, type: 'default' },
+  { id: '14', position: { x: -150, y: 500 }, data: { label: 'State & Lifecycle', extraInfo: 'Manage state and lifecycle methods in functional components. Study how state changes over time and its impact on UI rendering.' }, type: 'default' },
+  { id: '15', position: { x: -100, y: 500 }, data: { label: 'Event Handling', extraInfo: 'Handle user interactions with event handling in React. Learn to capture user input and trigger appropriate functions on events.' }, type: 'default' },
+  { id: '16', position: { x: 100, y: 500 }, data: { label: 'useState, useEffect', extraInfo: 'Master React hooks for state and side effect management. Build projects that involve data fetching and dynamic updates using these hooks.' }, type: 'default' },
+  { id: '17', position: { x: 150, y: 500 }, data: { label: 'useRef, useMemo, useCallback', extraInfo: 'Optimize performance using hooks like useRef, useMemo, and useCallback. Focus on preventing unnecessary re-renders and improving component efficiency.' }, type: 'default' },
+  { id: '18', position: { x: 200, y: 500 }, data: { label: 'Custom Hooks', extraInfo: 'Build your own reusable custom hooks to encapsulate complex logic. Practice by modularizing logic across components into reusable hooks.' }, type: 'default' },
+  { id: '19', position: { x: 0, y: 600 }, data: { label: 'React Router', extraInfo: 'Learn how to navigate between pages with React Router. Build multi-page applications with dynamic routing.' }, type: 'default' },
+  { id: '20', position: { x: -150, y: 700 }, data: { label: 'React Router Setup', extraInfo: 'Set up routing in your React app to enable page navigation. Practice setting up routes, linking between pages, and implementing browser history.' }, type: 'default' },
+  { id: '21', position: { x: 0, y: 700 }, data: { label: 'Nested & Protected Routes', extraInfo: 'Implement nested and protected routes in your React app. Learn to structure routes for complex applications and add authentication guards.' }, type: 'default' },
+  { id: '22', position: { x: 0, y: 800 }, data: { label: 'Phase 3: Building Real Projects', extraInfo: 'Start applying your knowledge by building real-world React applications. Choose projects that involve API integration and more complex state management.' }, type: 'default' },
+  { id: '23', position: { x: -150, y: 900 }, data: { label: 'Create First React App', extraInfo: 'Create your first React application from scratch. Follow tutorials to set up the project and practice using common features like forms and navigation.' }, type: 'default' },
+  { id: '24', position: { x: 150, y: 900 }, data: { label: 'API Integration', extraInfo: 'Learn how to integrate third-party APIs into your React apps. Study how to make API calls and handle responses.' }, type: 'default' },
+  { id: '25', position: { x: -200, y: 1000 }, data: { label: 'To-do App', extraInfo: 'Build a simple To-do app to manage tasks. Focus on managing state, adding, editing, and deleting tasks.' }, type: 'default' },
+  { id: '26', position: { x: -150, y: 1000 }, data: { label: 'Weather App', extraInfo: 'Create a weather app that fetches data from a weather API. Learn to handle asynchronous operations and display real-time data.' }, type: 'default' },
+  { id: '27', position: { x: 100, y: 1000 }, data: { label: 'Fetch Data with Axios', extraInfo: 'Learn how to fetch data from APIs using Axios. Practice making get requests, handling responses, and error management.' }, type: 'default' },
+  { id: '28', position: { x: 150, y: 1000 }, data: { label: 'Handle Loading & Errors', extraInfo: 'Handle loading states and errors in your applications. Study how to show loading spinners and handle error cases gracefully.' }, type: 'default' },
+  { id: '29', position: { x: 0, y: 1100 }, data: { label: 'Phase 4: Performance Optimization', extraInfo: 'Learn how to optimize your React applications for better performance. Focus on tools and techniques to improve rendering efficiency.' }, type: 'default' },
+  { id: '30', position: { x: -150, y: 1200 }, data: { label: 'Performance Optimization Techniques', extraInfo: 'Implement techniques to improve app performance and reduce render time. Learn memoization, code-splitting, and lazy loading.' }, type: 'default' },
+  { id: '31', position: { x: 150, y: 1200 }, data: { label: 'React DevTools', extraInfo: 'Use React DevTools to debug and profile your app. Study how to find performance bottlenecks and inspect component rendering.' }, type: 'default' },
+  { id: '32', position: { x: 0, y: 1300 }, data: { label: 'Phase 5: Advanced React Ecosystem', extraInfo: 'Explore advanced topics in the React ecosystem. Study topics like server-side rendering and advanced data fetching strategies.' }, type: 'default' },
+  { id: '33', position: { x: -150, y: 1400 }, data: { label: 'Server-Side Rendering (SSR)', extraInfo: 'Learn how to render React on the server to improve performance and SEO. Follow a tutorial on using Next.js or similar frameworks.' }, type: 'default' },
+  { id: '34', position: { x: 150, y: 1400 }, data: { label: 'GraphQL Integration', extraInfo: 'Integrate GraphQL with your React application to fetch data efficiently. Study how to set up a GraphQL client and query data.' }, type: 'default' },
+  { id: '35', position: { x: 0, y: 1500 }, data: { label: 'Phase 6: Deployment & DevOps', extraInfo: 'Deploy your React applications and set up continuous integration/continuous deployment pipelines. Practice automating deployment processes.' }, type: 'default' },
+  { id: '36', position: { x: -150, y: 1600 }, data: { label: 'CI/CD Pipelines', extraInfo: 'Set up CI/CD pipelines to automate deployment processes. Use services like GitHub Actions, Jenkins, or CircleCI.' }, type: 'default' },
+  { id: '37', position: { x: 150, y: 1600 }, data: { label: 'Deploying React Apps', extraInfo: 'Learn how to deploy your React apps to platforms like Netlify or Vercel. Follow step-by-step guides to publish your app live.' }, type: 'output' },
 ]
 
 export const initialEdges = [
@@ -76,12 +70,12 @@ export const initialEdges = [
   { id: 'e29', source: '35', target: '36' },
   { id: 'e30', source: '35', target: '37' },
 
-   // New edges to connect Phase 1 to Phase 2 through Phase 6
-   { id: 'e31', source: '1', target: '10' }, // Phase 1 to Phase 2
-   { id: 'e32', source: '10', target: '19' }, // Phase 2 to Phase 3
-   { id: 'e33', source: '19', target: '29' }, // Phase 3 to Phase 4
-   { id: 'e34', source: '29', target: '32' }, // Phase 4 to Phase 5
-   { id: 'e35', source: '32', target: '35' }, // Phase 5 to Phase 6
+  // New edges to connect Phase 1 to Phase 2 through Phase 6
+  { id: 'e31', source: '1', target: '10' }, // Phase 1 to Phase 2
+  { id: 'e32', source: '10', target: '19' }, // Phase 2 to Phase 3
+  { id: 'e33', source: '19', target: '29' }, // Phase 3 to Phase 4
+  { id: 'e34', source: '29', target: '32' }, // Phase 4 to Phase 5
+  { id: 'e35', source: '32', target: '35' }, // Phase 5 to Phase 6
 ]
 
 export const mermaidDiagram = `
