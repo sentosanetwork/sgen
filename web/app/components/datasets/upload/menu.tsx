@@ -3,13 +3,18 @@ import React from 'react';
 
 const DraggableMenu = ({ onDrag }) => {
   const components = [
-    { id: 'node1', label: 'Node Type 1' },
-    { id: 'node2', label: 'Node Type 2' },
-    { id: 'node3', label: 'Node Type 3' },
+    { id: 'mindNode', label: 'Mind Map Node' },
+    { id: 'roadNode', label: 'Road Map Node' },
+    { id: 'taskNode', label: 'Task Node' },
+    { id: 'decisionNode', label: 'Decision Node' },
+    { id: 'noteNode', label: 'Note Node' },
+    { id: 'chartNode', label: 'Chart Node' },
+    { id: 'subTaskNode', label: 'Subtask Node' },
+    { id: 'milestoneNode', label: 'Milestone Node' },
   ];
 
   return (
-    <div style={{ padding: '10px', border: '1px solid #ccc', borderRadius: '5px', width: '200px' }}>
+    <div style={{ padding: '10px', border: '1px solid #ccc', borderRadius: '5px', width: '220px' }}>
       <h4>Components</h4>
       {components.map((component) => (
         <div
@@ -31,4 +36,4 @@ const DraggableMenu = ({ onDrag }) => {
   );
 };
 
-export default DraggableMenu
+export default DraggableMenu;

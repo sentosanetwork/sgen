@@ -40,12 +40,44 @@ function ReactRoadmap({ initialNodes, initialEdges }) {
   }, [nodes, edges]);
 
   const addNode = (type) => {
+    let newLabel = '';
+    
+    switch(type) {
+      case 'mindNode':
+        newLabel = 'Mind Map Node';
+        break;
+      case 'roadNode':
+        newLabel = 'Road Map Node';
+        break;
+      case 'taskNode':
+        newLabel = 'Task Node';
+        break;
+      case 'decisionNode':
+        newLabel = 'Decision Node';
+        break;
+      case 'noteNode':
+        newLabel = 'Note Node';
+        break;
+      case 'chartNode':
+        newLabel = 'Chart Node';
+        break;
+      case 'subTaskNode':
+        newLabel = 'Subtask Node';
+        break;
+      case 'milestoneNode':
+        newLabel = 'Milestone Node';
+        break;
+      default:
+        newLabel = 'New Node';
+    }
+  
     const newNode = {
       id: nanoid(),
       position: { x: Math.random() * 250, y: Math.random() * 250 },
-      data: { label: type === 'node1' ? 'Type 1 Node' : type === 'node2' ? 'Type 2 Node' : 'Type 3 Node' },
-      type: 'editableNode',
+      data: { label: newLabel },
+      type: type === "chartNode" ? "chartNode" : "editableNode", // Use different types if needed
     };
+    
     setNodes((nds) => [...nds, newNode]);
   };
 
