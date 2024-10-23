@@ -1,17 +1,17 @@
-import React, { useCallback, useEffect, useMemo, useState } from 'react'
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import ReactFlow, {
   Background,
   Controls,
-  Handle,
   ReactFlowProvider,
   addEdge,
   useEdgesState,
   useNodesState,
-} from 'reactflow'
-import 'reactflow/dist/style.css'
-import { nanoid } from 'nanoid'
-import CustomEdge from './edges'; // Import your custom edge component
-import EditableNode from './nodes'; // Import your custom edge component
+} from 'reactflow';
+import 'reactflow/dist/style.css';
+import { nanoid } from 'nanoid';
+import CustomEdge from './edges';
+import EditableNode from './nodes';
+import DraggableMenu from './menu'; // Import the new menu component
 
 function ReactRoadmap({ initialNodes, initialEdges }) {
   const [nodes, setNodes, onNodesChange] = useNodesState(initialNodes);
@@ -22,11 +22,9 @@ function ReactRoadmap({ initialNodes, initialEdges }) {
 
   const storageKey = 'react-roadmap-flow';
 
-  // Memoize nodeTypes and edgeTypes so they don't get recreated on every render
   const nodeTypes = useMemo(() => ({ editableNode: EditableNode }), []);
-  const edgeTypes = useMemo(() => ({ customEdge: CustomEdge }), []); // Add custom edge type
+  const edgeTypes = useMemo(() => ({ customEdge: CustomEdge }), []);
 
-  // Load nodes and edges from localStorage on mount
   useEffect(() => {
     const savedFlow = JSON.parse(localStorage.getItem(storageKey));
     if (savedFlow) {
@@ -35,135 +33,121 @@ function ReactRoadmap({ initialNodes, initialEdges }) {
     }
   }, [initialNodes, initialEdges, setNodes, setEdges]);
 
-  // Save nodes and edges to localStorage
   const saveFlow = useCallback(() => {
     const flow = { nodes, edges };
     localStorage.setItem(storageKey, JSON.stringify(flow));
     alert('Roadmap saved!');
   }, [nodes, edges]);
 
-  // Handle adding new nodes
-  const addNode = () => {
+  const addNode = (type) => {
     const newNode = {
       id: nanoid(),
       position: { x: Math.random() * 250, y: Math.random() * 250 },
-      data: { label: 'New Node' },
-      type: 'editableNode', // Use the custom node type for editable label
+      data: { label: type === 'node1' ? 'Type 1 Node' : type === 'node2' ? 'Type 2 Node' : 'Type 3 Node' },
+      type: 'editableNode',
     };
     setNodes((nds) => [...nds, newNode]);
   };
 
-  // Handle edge creation
   const onConnect = useCallback(
-    (params) => setEdges((eds) => addEdge({ ...params, type: 'customEdge' }, eds)), // Use custom edge type here
+    (params) => setEdges((eds) => addEdge({ ...params, type: 'customEdge' }, eds)),
     [setEdges]
   );
 
-  // Handle node click to display its details
   const onNodeClick = (id, label, info) => {
     setSelectedNode(id);
     setSelectedNodeLabel(label);
     setSelectedNodeInfo(info);
   };
 
+  // Handle drag event
+  const handleDragStart = (event, component) => {
+    event.dataTransfer.setData('application/reactflow', component.id);
+    event.dataTransfer.effectAllowed = 'move';
+  };
+
+  // Handle drop event
+  const handleDrop = (event) => {
+    event.preventDefault();
+    const type = event.dataTransfer.getData('application/reactflow');
+    
+    if (type) {
+      addNode(type);
+    }
+  };
+
   return (
     <ReactFlowProvider>
-      <div style={{ height: '100vh' }}>
-        <ReactFlow
-          nodes={nodes}
-          edges={edges}
-          nodeTypes={nodeTypes} // Memoized nodeTypes
-          edgeTypes={edgeTypes} // Use the custom edge type here
-          onNodesChange={onNodesChange}
-          onEdgesChange={onEdgesChange}
-          onConnect={onConnect}
-          onNodeClick={(_, node) => onNodeClick(node.id, node.data.label, node?.data?.extraInfo)}
-          fitView
-          defaultZoom={1.5}
-          minZoom={0.5}
-          maxZoom={2}
-        >
-          <Controls />
-          <Background />
-        </ReactFlow>
-
-        {/* Add buttons for adding nodes and saving the roadmap */}
-        <div style={{ position: 'absolute', bottom: 4, right: 4 }}>
-          <button
-            onClick={addNode}
-            style={{
-              border: '2px solid #4caf50',
-              padding: '0 8px',
-              borderRadius: '5px',
-              backgroundColor: '#fff',
-              color: '#4caf50',
-              cursor: 'pointer',
-            }}
+      <div style={{ height: '100vh', display: 'flex' }}>
+        <DraggableMenu onDrag={handleDragStart} />
+        
+        <div style={{ flexGrow: 1 }}>
+          <ReactFlow
+            nodes={nodes}
+            edges={edges}
+            nodeTypes={nodeTypes}
+            edgeTypes={edgeTypes}
+            onNodesChange={onNodesChange}
+            onEdgesChange={onEdgesChange}
+            onConnect={onConnect}
+            onDrop={handleDrop}
+            onDragOver={(event) => event.preventDefault()} // Prevent default to allow drop
+            onNodeClick={(_, node) => onNodeClick(node.id, node.data.label, node?.data?.extraInfo)}
+            fitView
+            defaultZoom={1.5}
+            minZoom={0.5}
+            maxZoom={2}
           >
-            Add
-          </button>
-          <button
-            onClick={saveFlow}
-            style={{
-              marginLeft: 8,
-              border: '2px solid #2196f3',
-              padding: '0 8px',
-              borderRadius: '5px',
-              backgroundColor: '#fff',
-              color: '#2196f3',
-              cursor: 'pointer',
-            }}
-          >
-            Save
-          </button>
-        </div>
+            <Controls />
+            <Background />
+          </ReactFlow>
 
-        {/* Display the details of the selected node */}
-        {selectedNode && (
-          <div
-            style={{
-              position: 'absolute',
-              bottom: 64,
-              right: 16,
-              backgroundColor: 'rgba(255, 255, 255, 0.7)',
-              padding: '10px',
-              borderRadius: '8px',
-              boxShadow: '0px 4px 6px rgba(0, 0, 0, 0.1)',
-              maxWidth: '300px',
-              wordWrap: 'break-word',
-            }}
-          >
-            <h4>Details</h4>
-            <p>
-              <strong>{selectedNodeLabel}</strong>
-            </p>
-            <p>
-              <strong>{selectedNodeInfo}</strong>
-            </p>
-            <p>
-              <strong>ID:</strong> {selectedNode}
-            </p>
-            <p>
-              <strong>Type:</strong>{' '}
-              {nodes.find((node) => node.id === selectedNode)?.type}
-            </p>
-            <p>
-              <strong>Position:</strong> X:{' '}
-              {nodes.find((node) => node.id === selectedNode)?.position?.x}, Y:{' '}
-              {nodes.find((node) => node.id === selectedNode)?.position?.y}
-            </p>
-            <p>
-              <strong>Created:</strong> {new Date().toLocaleString()}
-            </p>
-
-            {nodes.find((node) => node.id === selectedNode)?.data?.extraInfo && (
-              <p>
-                <strong>Extra Info:</strong>{' '}
-                {nodes.find((node) => node.id === selectedNode)?.data.extraInfo}
-              </p>
-            )}
+          {/* Add buttons for adding nodes and saving the roadmap */}
+          <div style={{ position: 'absolute', bottom: 4, right: 4 }}>
+            <button
+              onClick={saveFlow}
+              style={{
+                border: '2px solid #2196f3',
+                padding: '0 8px',
+                borderRadius: '5px',
+                backgroundColor: '#fff',
+                color: '#2196f3',
+                cursor: 'pointer',
+              }}
+            >
+              Save
+            </button>
           </div>
-        )}
+
+          {/* Display the details of the selected node */}
+          {selectedNode && (
+            <div
+              style={{
+                position: 'absolute',
+                bottom: 64,
+                right: 16,
+                backgroundColor: 'rgba(255,255,255,.7)',
+                padding: '10px',
+                borderRadius: '8px',
+                boxShadow: '0px 4px 6px rgba(0,0,0,.1)',
+                maxWidth: '300px',
+                wordWrap: 'break-word',
+              }}
+            >
+              <h4>Details</h4>
+              <p><strong>{selectedNodeLabel}</strong></p>
+              <p><strong>{selectedNodeInfo}</strong></p>
+              <p><strong>ID:</strong> {selectedNode}</p>
+              <p><strong>Type:</strong> {nodes.find((node) => node.id === selectedNode)?.type}</p>
+              <p><strong>Position:</strong> X:{nodes.find((node) => node.id === selectedNode)?.position?.x}, Y:{nodes.find((node) => node.id === selectedNode)?.position?.y}</p>
+              <p><strong>Created:</strong> {new Date().toLocaleString()}</p>
+
+              {nodes.find((node) => node.id === selectedNode)?.data?.extraInfo && (
+                <p><strong>Extra Info:</strong> {nodes.find((node) => node.id === selectedNode)?.data.extraInfo}</p>
+              )}
+            </div>
+          )}
+        </div>
       </div>
     </ReactFlowProvider>
   );
