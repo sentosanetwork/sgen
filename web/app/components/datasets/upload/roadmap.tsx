@@ -1,6 +1,7 @@
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import ReactFlow, {
   Background,
+  BackgroundVariant,
   Controls,
   ReactFlowProvider,
   addEdge,
@@ -99,7 +100,7 @@ function ReactRoadmap({ initialNodes, initialEdges }) {
             maxZoom={2}
           >
             <Controls />
-            <Background />
+            <Background color="#32a852" variant={BackgroundVariant.Dots} />
           </ReactFlow>
 
           {/* Add buttons for saving the roadmap */}
