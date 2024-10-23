@@ -1,6 +1,6 @@
 // DraggableMenu.js
 import React, { useState } from 'react';
-import { FaHeading, FaListUl, FaParagraph, FaTag, FaRegHandPointer, FaCheckSquare, FaLink, FaChartLine, FaTasks, FaChevronDown, FaChevronRight } from 'react-icons/fa'; // Importing icons
+import { FaHeading, FaListUl, FaParagraph, FaTag, FaFoursquare, FaRegHandPointer, FaCheckSquare, FaLink, FaChartLine, FaTasks, FaChevronDown, FaChevronRight } from 'react-icons/fa'; // Importing icons
 
 const DraggableMenu = ({ onDrag }) => {
   const [isExpanded, setIsExpanded] = useState(true); // State to manage expansion
@@ -18,7 +18,7 @@ const DraggableMenu = ({ onDrag }) => {
     { id: 'linkGroup', label: 'Link Group', icon: <FaLink /> },
     { id: 'verticalLine', label: 'Vertical Line', icon: <div style={{ width: '2px', height: '20px', backgroundColor: '#000' }}></div> }, // Custom vertical line
     { id: 'resourceButton', label: 'Resource Button', icon: <FaRegHandPointer /> },
-    { id: 'section', label: 'Section', icon: <div style={{ borderBottom: '2px solid #000', width: '100%', marginBottom: '5px' }}></div> }, // Custom section
+    { id: 'section', label: 'Section', icon: <FaFoursquare /> },
   ];
 
   return (
