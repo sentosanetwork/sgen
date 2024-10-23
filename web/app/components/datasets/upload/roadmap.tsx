@@ -12,13 +12,12 @@ import { nanoid } from 'nanoid';
 import CustomEdge from './edges';
 import EditableNode from './nodes';
 import DraggableMenu from './draggable-menu'; // Import the new menu component
+import NodeDetails from './node-detail'; // Import the new NodeDetails component
 
 function ReactRoadmap({ initialNodes, initialEdges }) {
   const [nodes, setNodes, onNodesChange] = useNodesState(initialNodes);
   const [edges, setEdges, onEdgesChange] = useEdgesState(initialEdges);
   const [selectedNode, setSelectedNode] = useState(null);
-  const [selectedNodeLabel, setSelectedNodeLabel] = useState('');
-  const [selectedNodeInfo, setSelectedNodeInfo] = useState('');
 
   const storageKey = 'react-roadmap-flow';
 
@@ -31,7 +30,7 @@ function ReactRoadmap({ initialNodes, initialEdges }) {
       setNodes(savedFlow.nodes || initialNodes);
       setEdges(savedFlow.edges || initialEdges);
     }
-  }, [initialNodes, initialEdges, setNodes, setEdges]);
+  }, [initialNodes, initialEdges]);
 
   const saveFlow = useCallback(() => {
     const flow = { nodes, edges };
@@ -57,10 +56,8 @@ function ReactRoadmap({ initialNodes, initialEdges }) {
     [setEdges]
   );
 
-  const onNodeClick = (id, label, info) => {
+  const onNodeClick = (id) => {
     setSelectedNode(id);
-    setSelectedNodeLabel(label);
-    setSelectedNodeInfo(info);
   };
 
   // Handle drag event
@@ -95,7 +92,7 @@ function ReactRoadmap({ initialNodes, initialEdges }) {
             onConnect={onConnect}
             onDrop={handleDrop}
             onDragOver={(event) => event.preventDefault()} // Prevent default to allow drop
-            onNodeClick={(_, node) => onNodeClick(node.id, node.data.label, node?.data?.extraInfo)}
+            onNodeClick={(_, node) => onNodeClick(node.id)}
             fitView
             defaultZoom={1.5}
             minZoom={0.5}
@@ -111,7 +108,6 @@ function ReactRoadmap({ initialNodes, initialEdges }) {
               onClick={saveFlow}
               style={{
                 border: '2px solid #007bff',
-                // padding: '10px', // Adjust padding to make it more circular
                 borderRadius: '50%', // Make it circular
                 backgroundColor: '#007bff',
                 color: '#fff',
@@ -128,34 +124,8 @@ function ReactRoadmap({ initialNodes, initialEdges }) {
             </button>
           </div>
 
-          {/* Display the details of the selected node */}
-          {selectedNode && (
-            <div
-              style={{
-                position: 'absolute',
-                bottom: '80px',
-                right: '20px',
-                backgroundColor: '#ffffff',
-                padding: '15px',
-                borderRadius: '8px',
-                boxShadow: '0px 4px 10px rgba(0,0,0,.2)',
-                maxWidth: '300px',
-                wordWrap: 'break-word',
-              }}
-            >
-              <h4 style={{ marginBottom: '10px', color: '#333' }}>Details</h4>
-              <p style={{ marginBottom: '5px' }}><strong>Label:</strong> {selectedNodeLabel}</p>
-              <p style={{ marginBottom: '5px' }}><strong>Info:</strong> {selectedNodeInfo}</p>
-              <p style={{ marginBottom: '5px' }}><strong>ID:</strong> {selectedNode}</p>
-              <p style={{ marginBottom: '5px' }}><strong>Type:</strong> {nodes.find((node) => node.id === selectedNode)?.type}</p>
-              <p style={{ marginBottom: '5px' }}><strong>Position:</strong> X:{nodes.find((node) => node.id === selectedNode)?.position?.x}, Y:{nodes.find((node) => node.id === selectedNode)?.position?.y}</p>
-              <p style={{ marginBottom: '5px' }}><strong>Created:</strong> {new Date().toLocaleString()}</p>
-
-              {nodes.find((node) => node.id === selectedNode)?.data?.extraInfo && (
-                <p style={{ marginBottom: '5px' }}><strong>Extra Info:</strong> {nodes.find((node) => node.id === selectedNode)?.data.extraInfo}</p>
-              )}
-            </div>
-          )}
+          {/* Use the NodeDetails component */}
+          <NodeDetails selectedNode={selectedNode} nodes={nodes} />
         </div>
       </div>
     </ReactFlowProvider>
