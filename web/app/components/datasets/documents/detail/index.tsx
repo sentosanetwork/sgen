@@ -16,7 +16,7 @@ import SegmentAdd, { ProcessStatus } from './segment-add'
 import BatchModal from './batch-modal'
 import style from './style.module.css'
 import ReactRoadmap from '@/app/components/datasets/upload/roadmap'
-import { initialNodes, initialEdges } from '@/app/components/datasets/upload/roadmap-data'
+import { initialEdges, initialNodes } from '@/app/components/datasets/upload/roadmap-data'
 import cn from '@/utils/classnames'
 import Divider from '@/app/components/base/divider'
 import Loading from '@/app/components/base/loading'
@@ -136,92 +136,94 @@ const DocumentDetail: FC<Props> = ({ datasetId, documentId }) => {
 
   return (
     <DocumentContext.Provider value={{ datasetId, documentId, docForm: documentDetail?.doc_form || '' }}>
-      <div className='flex flex-col h-full overflow-y-auto'>
-        <div className='flex min-h-16 border-b-gray-100 border-b items-center p-4 justify-between flex-wrap gap-y-2'>
-          <div onClick={backToPrev} className={'shrink-0 rounded-full w-8 h-8 flex justify-center items-center border-gray-100 cursor-pointer border hover:border-gray-300 shadow-[0px_12px_16px_-4px_rgba(16,24,40,0.08),0px_4px_6px_-2px_rgba(16,24,40,0.03)]'}>
-            <ArrowLeftIcon className='text-primary-600 fill-current stroke-current h-4 w-4' />
-          </div>
-          <Divider className='!h-4' type='vertical' />
-          <DocumentTitle extension={documentDetail?.data_source_info?.upload_file?.extension} name={documentDetail?.name} />
-          <div className='flex items-center flex-wrap gap-y-2'>
-            <StatusItem status={documentDetail?.display_status || 'available'} scene='detail' errorMessage={documentDetail?.error || ''} />
-            {embeddingAvailable && documentDetail && !documentDetail.archived && (
-              <SegmentAdd
-                importStatus={importStatus}
-                clearProcessStatus={resetProcessStatus}
-                showNewSegmentModal={showNewSegmentModal}
-                showBatchModal={showBatchModal}
-              />
-            )}
-            <OperationAction
-              scene='detail'
-              embeddingAvailable={embeddingAvailable}
-              detail={{
-                name: documentDetail?.name || '',
-                enabled: documentDetail?.enabled || false,
-                archived: documentDetail?.archived || false,
-                id: documentId,
-                data_source_type: documentDetail?.data_source_type || '',
-                doc_form: documentDetail?.doc_form || '',
-              }}
-              datasetId={datasetId}
-              onUpdate={handleOperate}
-              className='!w-[216px]'
-            />
-            <button
-              className={cn(style.layoutRightIcon, showMetadata ? style.iconShow : style.iconClose)}
-              onClick={() => setShowMetadata(!showMetadata)}
-            />
-          </div>
-        </div>
-        <div className='flex flex-row flex-1' style={{ height: 'calc(100% - 4rem)' }}>
-          {isDetailLoading
-            ? <Loading type='app' />
-            : <div className={`h-full w-full flex flex-col overflow-y-auto ${embedding ? 'px-6 py-3 sm:py-12 sm:px-16' : 'pb-[30px] pt-3 px-6'}`}>
-              {embedding
-                ? <Embedding detail={documentDetail} detailUpdate={detailMutate} />
-                : <Completed
-                  embeddingAvailable={embeddingAvailable}
-                  showNewSegmentModal={newSegmentModalVisible}
-                  onNewSegmentModalChange={setNewSegmentModalVisible}
-                  importStatus={importStatus}
-                  archived={documentDetail?.archived}
-                />
-              }
-            </div>
-          }
-          <FloatRightContainer showClose isOpen={showMetadata} onClose={() => setShowMetadata(false)} isMobile={isMobile} panelClassname='!justify-start' footer={null}>
-            <Metadata
-              docDetail={{ ...documentDetail, ...documentMetadata, doc_type: documentMetadata?.doc_type === 'others' ? '' : documentMetadata?.doc_type } as any}
-              loading={isMetadataLoading}
-              onUpdate={metadataMutate}
-            />
-          </FloatRightContainer>
-        </div>
-        <BatchModal
-          isShow={batchModalVisible}
-          onCancel={hideBatchModal}
-          onConfirm={runBatch}
-          docForm={documentDetail?.doc_form as DocForm}
-        />
 
-        <div className='border-b-gray-100 border-b p-4 gap-y-2'>
-          {currentDataset && currentDataset.tags && currentDataset.tags?.some(tag => tag?.name === 'Roadmap') && (
-            <>
+      {(currentDataset && currentDataset.tags && currentDataset.tags?.some(tag => tag?.name === 'Roadmap'))
+        ? (
+          <div className='flex flex-col h-full overflow-y-auto'>
+            <div className='border-b-gray-100 border-b p-4 gap-y-2'>
               <div className='flex items-center justify-between gap-x-4'>
                 {currentDataset.tags?.[0]?.name}
               </div>
               <ReactRoadmap initialNodes={initialNodes} initialEdges={initialEdges} />
               <iframe
                 src="http://167.172.87.130/chatbot/GyC8biGhNNDfFVSM"
-                style={{ width: '100%', height: '100%', minHeight: '700px' }}
-                frameBorder="0"
+                style={{ width: '100%', height: '100%' }}
                 allow="microphone"
               ></iframe>
-            </>
-          )}
-        </div>
-      </div>
+            </div>
+          </div>
+        )
+        : (
+          <div className='flex flex-col h-full overflow-y-auto'>
+            <div className='flex min-h-16 border-b-gray-100 border-b items-center p-4 justify-between flex-wrap gap-y-2'>
+              <div onClick={backToPrev} className={'shrink-0 rounded-full w-8 h-8 flex justify-center items-center border-gray-100 cursor-pointer border hover:border-gray-300 shadow-[0px_12px_16px_-4px_rgba(16,24,40,0.08),0px_4px_6px_-2px_rgba(16,24,40,0.03)]'}>
+                <ArrowLeftIcon className='text-primary-600 fill-current stroke-current h-4 w-4' />
+              </div>
+              <Divider className='!h-4' type='vertical' />
+              <DocumentTitle extension={documentDetail?.data_source_info?.upload_file?.extension} name={documentDetail?.name} />
+              <div className='flex items-center flex-wrap gap-y-2'>
+                <StatusItem status={documentDetail?.display_status || 'available'} scene='detail' errorMessage={documentDetail?.error || ''} />
+                {embeddingAvailable && documentDetail && !documentDetail.archived && (
+                  <SegmentAdd
+                    importStatus={importStatus}
+                    clearProcessStatus={resetProcessStatus}
+                    showNewSegmentModal={showNewSegmentModal}
+                    showBatchModal={showBatchModal}
+                  />
+                )}
+                <OperationAction
+                  scene='detail'
+                  embeddingAvailable={embeddingAvailable}
+                  detail={{
+                    name: documentDetail?.name || '',
+                    enabled: documentDetail?.enabled || false,
+                    archived: documentDetail?.archived || false,
+                    id: documentId,
+                    data_source_type: documentDetail?.data_source_type || '',
+                    doc_form: documentDetail?.doc_form || '',
+                  }}
+                  datasetId={datasetId}
+                  onUpdate={handleOperate}
+                  className='!w-[216px]'
+                />
+                <button
+                  className={cn(style.layoutRightIcon, showMetadata ? style.iconShow : style.iconClose)}
+                  onClick={() => setShowMetadata(!showMetadata)}
+                />
+              </div>
+            </div>
+            <div className='flex flex-row flex-1' style={{ height: 'calc(100% - 4rem)' }}>
+              {isDetailLoading
+                ? <Loading type='app' />
+                : <div className={`h-full w-full flex flex-col overflow-y-auto ${embedding ? 'px-6 py-3 sm:py-12 sm:px-16' : 'pb-[30px] pt-3 px-6'}`}>
+                  {embedding
+                    ? <Embedding detail={documentDetail} detailUpdate={detailMutate} />
+                    : <Completed
+                      embeddingAvailable={embeddingAvailable}
+                      showNewSegmentModal={newSegmentModalVisible}
+                      onNewSegmentModalChange={setNewSegmentModalVisible}
+                      importStatus={importStatus}
+                      archived={documentDetail?.archived}
+                    />
+                  }
+                </div>
+              }
+              <FloatRightContainer showClose isOpen={showMetadata} onClose={() => setShowMetadata(false)} isMobile={isMobile} panelClassname='!justify-start' footer={null}>
+                <Metadata
+                  docDetail={{ ...documentDetail, ...documentMetadata, doc_type: documentMetadata?.doc_type === 'others' ? '' : documentMetadata?.doc_type } as any}
+                  loading={isMetadataLoading}
+                  onUpdate={metadataMutate}
+                />
+              </FloatRightContainer>
+            </div>
+            <BatchModal
+              isShow={batchModalVisible}
+              onCancel={hideBatchModal}
+              onConfirm={runBatch}
+              docForm={documentDetail?.doc_form as DocForm}
+            />
+          </div>
+        )}
     </DocumentContext.Provider>
   )
 }
