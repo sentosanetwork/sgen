@@ -141,9 +141,6 @@ const DocumentDetail: FC<Props> = ({ datasetId, documentId }) => {
         ? (
           <div className='flex flex-col h-full overflow-y-auto'>
             <div className='border-b-gray-100 border-b p-4 gap-y-2'>
-              <div className='flex items-center justify-between gap-x-4'>
-                {currentDataset.tags?.[0]?.name}
-              </div>
               <ReactRoadmap initialNodes={initialNodes} initialEdges={initialEdges} />
               <iframe
                 src="http://167.172.87.130/chatbot/GyC8biGhNNDfFVSM"

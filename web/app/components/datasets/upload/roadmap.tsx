@@ -106,17 +106,19 @@ function ReactRoadmap({ initialNodes, initialEdges }) {
           </ReactFlow>
 
           {/* Add buttons for saving the roadmap */}
-          <div style={{ position: 'absolute', bottom: '20px', right: '20px' }}>
+          <div style={{ position: 'absolute', bottom: '16px', right: '16px' }}>
             <button
               onClick={saveFlow}
               style={{
                 border: '2px solid #007bff',
-                padding: '10px 15px',
-                borderRadius: '5px',
+                // padding: '10px', // Adjust padding to make it more circular
+                borderRadius: '50%', // Make it circular
                 backgroundColor: '#007bff',
                 color: '#fff',
                 cursor: 'pointer',
                 fontSize: '16px',
+                width: '50px', // Set a fixed width
+                height: '50px', // Set a fixed height
                 transition: 'background-color 0.3s ease',
               }}
               onMouseEnter={(e) => e.currentTarget.style.backgroundColor = '#0056b3'}

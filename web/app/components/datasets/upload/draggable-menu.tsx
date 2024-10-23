@@ -1,8 +1,10 @@
 // DraggableMenu.js
-import React from 'react';
-import { FaHeading, FaListUl, FaParagraph, FaTag, FaRegHandPointer, FaCheckSquare, FaLink, FaChartLine, FaTasks } from 'react-icons/fa'; // Importing icons
+import React, { useState } from 'react';
+import { FaHeading, FaListUl, FaParagraph, FaTag, FaRegHandPointer, FaCheckSquare, FaLink, FaChartLine, FaTasks, FaChevronDown, FaChevronRight } from 'react-icons/fa'; // Importing icons
 
 const DraggableMenu = ({ onDrag }) => {
+  const [isExpanded, setIsExpanded] = useState(true); // State to manage expansion
+
   const components = [
     { id: 'title', label: 'H1 Title', icon: <FaHeading /> },
     { id: 'topic', label: 'Topic', icon: <FaListUl /> },
@@ -20,9 +22,21 @@ const DraggableMenu = ({ onDrag }) => {
   ];
 
   return (
-    <div style={{ padding: '10px', borderRadius: '5px', width: '240px', boxShadow: '0 4px 8px rgba(0,0,0,0.1)', backgroundColor:'#fff' }}>
-      <h4 style={{ marginBottom:'10px' }}>Components</h4>
-      {components.map((component) => (
+    <div style={{ padding: '10px', borderRadius: '5px', width: isExpanded ? '240px' : '60px', boxShadow: '0 4px 8px rgba(0,0,0,0.1)', backgroundColor:'#fff' }}>
+        <button 
+          onClick={() => setIsExpanded(!isExpanded)}
+          style={{
+            marginLeft:'10px',
+            backgroundColor:'transparent',
+            border:'none',
+            cursor:'pointer',
+            color:'#007bff',
+            fontSize:'20px' // Make the icon larger
+          }}
+        >
+          {isExpanded ? <FaChevronDown /> : <FaChevronRight />}
+        </button>
+      {isExpanded && components.map((component) => (
         <div
           key={component.id}
           draggable
