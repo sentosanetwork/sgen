@@ -55,6 +55,7 @@ function ReactRoadmap({ initialNodes, initialEdges }) {
   const [edges, setEdges, onEdgesChange] = useEdgesState(initialEdges)
   const [selectedNode, setSelectedNode] = useState(null)
   const [selectedNodeLabel, setSelectedNodeLabel] = useState('')
+  const [selectedNodeInfo, setSelectedNodeInfo] = useState('')
 
   const storageKey = 'react-roadmap-flow'
 
@@ -95,9 +96,10 @@ function ReactRoadmap({ initialNodes, initialEdges }) {
   )
 
   // Handle node click to display its details
-  const onNodeClick = (id, label) => {
+  const onNodeClick = (id, label, info) => {
     setSelectedNode(id)
     setSelectedNodeLabel(label)
+    setSelectedNodeInfo(info)
   }
 
   return (
@@ -110,7 +112,7 @@ function ReactRoadmap({ initialNodes, initialEdges }) {
           onNodesChange={onNodesChange}
           onEdgesChange={onEdgesChange}
           onConnect={onConnect}
-          onNodeClick={(_, node) => onNodeClick(node.id, node.data.label)} // Pass the node click handler
+          onNodeClick={(_, node) => onNodeClick(node.id, node.data.label, node?.data?.extraInfo)} // Pass the node click handler
           fitView
           defaultZoom={1.5} // Set the default zoom level (1.5x zoom for example)
           minZoom={0.5} // Optional: Limit the minimum zoom level
@@ -168,6 +170,7 @@ function ReactRoadmap({ initialNodes, initialEdges }) {
           >
             <h4>Details</h4>
             <p><strong>{selectedNodeLabel}</strong></p>
+            <p><strong>{selectedNodeInfo}</strong></p>
             <p><strong>ID:</strong> {selectedNode}</p>
             {/* Add additional node information here */}
             <p><strong>Type:</strong> {nodes.find(node => node.id === selectedNode)?.type}</p>
