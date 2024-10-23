@@ -75,6 +75,13 @@ export const initialEdges = [
   { id: 'e28', source: '32', target: '34' },
   { id: 'e29', source: '35', target: '36' },
   { id: 'e30', source: '35', target: '37' },
+
+   // New edges to connect Phase 1 to Phase 2 through Phase 6
+   { id: 'e31', source: '1', target: '10' }, // Phase 1 to Phase 2
+   { id: 'e32', source: '10', target: '19' }, // Phase 2 to Phase 3
+   { id: 'e33', source: '19', target: '29' }, // Phase 3 to Phase 4
+   { id: 'e34', source: '29', target: '32' }, // Phase 4 to Phase 5
+   { id: 'e35', source: '32', target: '35' }, // Phase 5 to Phase 6
 ]
 
 export const mermaidDiagram = `

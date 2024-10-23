@@ -10,73 +10,37 @@ import ReactFlow, {
 } from 'reactflow'
 import 'reactflow/dist/style.css'
 import { nanoid } from 'nanoid'
-
-// Custom node component with editable label and yellow background
-function EditableNode({ id, data, isConnectable }) {
-  const [label, setLabel] = useState(data.label)
-
-  const handleLabelChange = (event) => {
-    setLabel(event.target.value)
-    data.label = event.target.value // Update the node's data with the new label
-  }
-
-  return (
-    <div
-      style={{
-        padding: '20px',
-        backgroundColor: '#d4b000', // Darker yellow background for all nodes
-        border: '2px solid #ddd', // Thicker border for visual impact
-        cursor: 'pointer',
-        width: '200px', // Set width to make the node bigger
-        textAlign: 'center', // Center the text
-        fontSize: '18px', // Increased font size for better readability
-      }}
-    >
-      <Handle type="target" position="top" isConnectable={isConnectable} />
-      <input
-        type="text"
-        value={label}
-        onChange={handleLabelChange}
-        style={{
-          width: '100%',
-          border: 'none',
-          backgroundColor: 'transparent',
-          textAlign: 'center',
-          fontSize: '18px', // Increased font size for the input as well
-        }}
-      />
-      <Handle type="source" position="bottom" isConnectable={isConnectable} />
-    </div>
-  )
-}
+import CustomEdge from './edges'; // Import your custom edge component
+import EditableNode from './nodes'; // Import your custom edge component
 
 function ReactRoadmap({ initialNodes, initialEdges }) {
-  const [nodes, setNodes, onNodesChange] = useNodesState(initialNodes)
-  const [edges, setEdges, onEdgesChange] = useEdgesState(initialEdges)
-  const [selectedNode, setSelectedNode] = useState(null)
-  const [selectedNodeLabel, setSelectedNodeLabel] = useState('')
-  const [selectedNodeInfo, setSelectedNodeInfo] = useState('')
+  const [nodes, setNodes, onNodesChange] = useNodesState(initialNodes);
+  const [edges, setEdges, onEdgesChange] = useEdgesState(initialEdges);
+  const [selectedNode, setSelectedNode] = useState(null);
+  const [selectedNodeLabel, setSelectedNodeLabel] = useState('');
+  const [selectedNodeInfo, setSelectedNodeInfo] = useState('');
 
-  const storageKey = 'react-roadmap-flow'
+  const storageKey = 'react-roadmap-flow';
 
-  // Memoize nodeTypes so it doesn't get recreated on every render
-  const nodeTypes = useMemo(() => ({ editableNode: EditableNode }), [])
+  // Memoize nodeTypes and edgeTypes so they don't get recreated on every render
+  const nodeTypes = useMemo(() => ({ editableNode: EditableNode }), []);
+  const edgeTypes = useMemo(() => ({ customEdge: CustomEdge }), []); // Add custom edge type
 
   // Load nodes and edges from localStorage on mount
   useEffect(() => {
-    const savedFlow = JSON.parse(localStorage.getItem(storageKey))
+    const savedFlow = JSON.parse(localStorage.getItem(storageKey));
     if (savedFlow) {
-      setNodes(savedFlow.nodes || initialNodes)
-      setEdges(savedFlow.edges || initialEdges)
+      setNodes(savedFlow.nodes || initialNodes);
+      setEdges(savedFlow.edges || initialEdges);
     }
-  }, [initialNodes, initialEdges, setNodes, setEdges])
+  }, [initialNodes, initialEdges, setNodes, setEdges]);
 
   // Save nodes and edges to localStorage
   const saveFlow = useCallback(() => {
-    const flow = { nodes, edges }
-    localStorage.setItem(storageKey, JSON.stringify(flow))
-    alert('Roadmap saved!')
-  }, [nodes, edges])
+    const flow = { nodes, edges };
+    localStorage.setItem(storageKey, JSON.stringify(flow));
+    alert('Roadmap saved!');
+  }, [nodes, edges]);
 
   // Handle adding new nodes
   const addNode = () => {
@@ -85,38 +49,39 @@ function ReactRoadmap({ initialNodes, initialEdges }) {
       position: { x: Math.random() * 250, y: Math.random() * 250 },
       data: { label: 'New Node' },
       type: 'editableNode', // Use the custom node type for editable label
-    }
-    setNodes(nds => [...nds, newNode])
-  }
+    };
+    setNodes((nds) => [...nds, newNode]);
+  };
 
   // Handle edge creation
   const onConnect = useCallback(
-    params => setEdges(eds => addEdge(params, eds)),
-    [setEdges],
-  )
+    (params) => setEdges((eds) => addEdge({ ...params, type: 'customEdge' }, eds)), // Use custom edge type here
+    [setEdges]
+  );
 
   // Handle node click to display its details
   const onNodeClick = (id, label, info) => {
-    setSelectedNode(id)
-    setSelectedNodeLabel(label)
-    setSelectedNodeInfo(info)
-  }
+    setSelectedNode(id);
+    setSelectedNodeLabel(label);
+    setSelectedNodeInfo(info);
+  };
 
   return (
     <ReactFlowProvider>
-      <div style={{ height: '100vh' }}> {/* Keep default React Flow background */}
+      <div style={{ height: '100vh' }}>
         <ReactFlow
           nodes={nodes}
           edges={edges}
           nodeTypes={nodeTypes} // Memoized nodeTypes
+          edgeTypes={edgeTypes} // Use the custom edge type here
           onNodesChange={onNodesChange}
           onEdgesChange={onEdgesChange}
           onConnect={onConnect}
-          onNodeClick={(_, node) => onNodeClick(node.id, node.data.label, node?.data?.extraInfo)} // Pass the node click handler
+          onNodeClick={(_, node) => onNodeClick(node.id, node.data.label, node?.data?.extraInfo)}
           fitView
-          defaultZoom={1.5} // Set the default zoom level (1.5x zoom for example)
-          minZoom={0.5} // Optional: Limit the minimum zoom level
-          maxZoom={2} // Optional: Limit the maximum zoom level
+          defaultZoom={1.5}
+          minZoom={0.5}
+          maxZoom={2}
         >
           <Controls />
           <Background />
@@ -127,29 +92,29 @@ function ReactRoadmap({ initialNodes, initialEdges }) {
           <button
             onClick={addNode}
             style={{
-              border: '2px solid #4caf50', // Green solid border
-              padding: '0 8px', // Padding for button
-              borderRadius: '5px', // Rounded corners
-              backgroundColor: '#fff', // White background
-              color: '#4caf50', // Green text
-              cursor: 'pointer', // Pointer cursor for hover effect
+              border: '2px solid #4caf50',
+              padding: '0 8px',
+              borderRadius: '5px',
+              backgroundColor: '#fff',
+              color: '#4caf50',
+              cursor: 'pointer',
             }}
           >
-          Add
+            Add
           </button>
           <button
             onClick={saveFlow}
             style={{
               marginLeft: 8,
-              border: '2px solid #2196f3', // Blue solid border
-              padding: '0 8px', // Padding for button
-              borderRadius: '5px', // Rounded corners
-              backgroundColor: '#fff', // White background
-              color: '#2196f3', // Blue text
-              cursor: 'pointer', // Pointer cursor for hover effect
+              border: '2px solid #2196f3',
+              padding: '0 8px',
+              borderRadius: '5px',
+              backgroundColor: '#fff',
+              color: '#2196f3',
+              cursor: 'pointer',
             }}
           >
-          Save
+            Save
           </button>
         </div>
 
@@ -160,33 +125,48 @@ function ReactRoadmap({ initialNodes, initialEdges }) {
               position: 'absolute',
               bottom: 64,
               right: 16,
-              backgroundColor: 'rgba(255, 255, 255, 0.7)', // White background with 70% opacity
+              backgroundColor: 'rgba(255, 255, 255, 0.7)',
               padding: '10px',
               borderRadius: '8px',
-              boxShadow: '0px 4px 6px rgba(0, 0, 0, 0.1)', // Subtle shadow for depth
-              maxWidth: '300px', // Constrain the width
-              wordWrap: 'break-word', // Ensure long text doesn't overflow
+              boxShadow: '0px 4px 6px rgba(0, 0, 0, 0.1)',
+              maxWidth: '300px',
+              wordWrap: 'break-word',
             }}
           >
             <h4>Details</h4>
-            <p><strong>{selectedNodeLabel}</strong></p>
-            <p><strong>{selectedNodeInfo}</strong></p>
-            <p><strong>ID:</strong> {selectedNode}</p>
-            {/* Add additional node information here */}
-            <p><strong>Type:</strong> {nodes.find(node => node.id === selectedNode)?.type}</p>
-            <p><strong>Position:</strong> X: {nodes.find(node => node.id === selectedNode)?.position?.x}, Y: {nodes.find(node => node.id === selectedNode)?.position?.y}</p>
-            <p><strong>Created:</strong> {new Date().toLocaleString()}</p>
+            <p>
+              <strong>{selectedNodeLabel}</strong>
+            </p>
+            <p>
+              <strong>{selectedNodeInfo}</strong>
+            </p>
+            <p>
+              <strong>ID:</strong> {selectedNode}
+            </p>
+            <p>
+              <strong>Type:</strong>{' '}
+              {nodes.find((node) => node.id === selectedNode)?.type}
+            </p>
+            <p>
+              <strong>Position:</strong> X:{' '}
+              {nodes.find((node) => node.id === selectedNode)?.position?.x}, Y:{' '}
+              {nodes.find((node) => node.id === selectedNode)?.position?.y}
+            </p>
+            <p>
+              <strong>Created:</strong> {new Date().toLocaleString()}
+            </p>
 
-            {/* You can also render custom data if available in node data */}
-            {nodes.find(node => node.id === selectedNode)?.data?.extraInfo && (
-              <p><strong>Extra Info:</strong> {nodes.find(node => node.id === selectedNode)?.data.extraInfo}</p>
+            {nodes.find((node) => node.id === selectedNode)?.data?.extraInfo && (
+              <p>
+                <strong>Extra Info:</strong>{' '}
+                {nodes.find((node) => node.id === selectedNode)?.data.extraInfo}
+              </p>
             )}
           </div>
         )}
-
       </div>
     </ReactFlowProvider>
-  )
+  );
 }
 
-export default ReactRoadmap
+export default ReactRoadmap;
